@@ -1,3 +1,7 @@
+# API DOCS
+
+Fecha: 2024-09
+
 > En todos los casos a menos que se especifique se toman los datos como username, email del token y se determina el tenantid en la base para las operaciones
 
 # Lista status con relacion a las llamadas activas campaign y agent
@@ -56,7 +60,7 @@ $app->get('/astcalls', \App\Controllers\CallsController::class . ':listall')->se
 			"userfield": "",
 			"amd": "no",
 			"amdreason": "",
-		.....
+		
 		},
 		"agent": {
 			"agentid": 442,
@@ -78,7 +82,7 @@ $app->get('/astcalls', \App\Controllers\CallsController::class . ':listall')->se
 			"status": "LOGOFF",
 			"statustime1": "2021-12-15 15:38:49",
 			"tenantid": "98",
-		.....
+		
 		},
 		"campaign": {
 			"camp_id": 252,
@@ -104,10 +108,10 @@ $app->get('/astcalls', \App\Controllers\CallsController::class . ':listall')->se
 			"busyretrytime": "3000",
 			"amdretrytime": "172800",
 			"startdialing": "00:00:00",
-			........
+			.
 		}
 	},
-	......
+	.
 ]
 ```
 # Devuelve los agentes activos 
@@ -134,7 +138,7 @@ $app->get('/activeagents[/{campid}]', \App\Controllers\AgentController::class . 
 		"status": "BREAK",
 		"sessionstart": "2022-10-24 09:00:40",
 		"timenow": "2022-10-24 10:12:44"
-	},.....
+	},
 ]
 ```
 # AREACODES 
@@ -175,7 +179,7 @@ $app->get('/areacodes', \App\Controllers\AreacodeController::class . ':listall')
 			"dls": "1"
 		},
 		"time_zone": null
-	}, .....
+	}, 
 ]	
 ```
 	
@@ -354,7 +358,7 @@ $app->get('/lead/{id}', \App\Controllers\LeadController::class . ':leadRead');
 	"custom1": "IX352-R",
 	"custom2": "1",
 	"custom3": "sadie@midwestcashoffer.com",
-	.......
+	
 	"custom14": "http:\/\/www.midwestcashoffer.com",
 	"private": "n",
 	"agentid": "5649",
@@ -407,7 +411,7 @@ $app->get('/lead/{id}', \App\Controllers\LeadController::class . ':leadRead');
 	"q4": "",
 	"q5": "",
 	"q6": "",
-	............
+	
 	"q49": "",
 	"q50": "",
 	"exported": "0",
@@ -658,7 +662,7 @@ $app->get('/lead_columns', \App\Controllers\LeadController::class . ':leadColumn
 	"q5",
 	"q6",
 	"q7",
-	.....
+	
 	"q50",
 	"lastcalled",
 	"NAME",
@@ -918,7 +922,7 @@ $app->get('/list_tenants', \App\Controllers\TenantController::class . ':listCTen
 			"activate_tenant": "y",
 			"sendclickerevents": "0",
 			"pushrecordsp": "PushCallData",
-			"tenantkey": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.axjOMMxsbHwr4JZU956J1NZsbIUj5cZGtqbuEIlrhUtyNRVbY_CXKdM302Xnhro0173aDcY7A0KhIKxZIRgYYCt9usFfjljv_vEIl6VD9NcjR70tYhL4v13LAhou0fNKq2xfdc3BAkXWG1oVt5crWLLTlpY_yFL8v-GJD96Y-g07AunlosWIhmOVN21-vF4HJmv91lz00Tsni10Eg2s05ekMoHgaZyYHUIUmUmC31XnG22t1JAZ0e4yC6UAGj9jS_3BIoXukwb2H1I-yFrMXko_QX-JyhOsEx6_49fFLwcS4A5EBD_...",
+			"tenantkey": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.axjOMMxsbHwr4JZU956J1NZsbIUj5cZGtqbuEIlrhUtyNRVbY_CXKdM302Xnhro0173aDcY7A0KhIKxZIRgYYCt9usFfjljv_vEIl6VD9NcjR70tYhL4v13LAhou0fNKq2xfdc3BAkXWG1oVt5crWLLTlpY_yFL8v-GJD96Y-g07AunlosWIhmOVN21-vF4HJmv91lz00Tsni10Eg2s05ekMoHgaZyYHUIUmUmC31XnG22t1JAZ0e4yC6UAGj9jS_3BIoXukwb2H1I-yFrMXko_QX-JyhOsEx6_49fFLwcS4A5EBD_.",
 			"tenantuid": "00000",
 			"usernamebase": "admin",
 			"smsid": "",
@@ -971,7 +975,7 @@ $app->get('/list_tenants', \App\Controllers\TenantController::class . ':listCTen
 			"nodeid": "6",
 			"export": "1"
 		},
-......
+.
 ]
 ```
 
@@ -1649,7 +1653,7 @@ $app->get('/campaigns_schedule', \App\Controllers\CampaignController::class . ':
 				"waitingrecordID": "0"
 			}
 		},
-		......
+		.
 	]
 }
 ```
@@ -1768,7 +1772,7 @@ $app->get('/agents_campaign/{camp_id}', \App\Controllers\CampaignController::cla
 			"agent_code": "u139e6348f2025b8f69e",
 			"name": "mco03"
 		},
-		....
+		
 	]
 }
 ```
@@ -2340,7 +2344,7 @@ $app->put('/campaign_disposition[/{camp_id}]', \App\Controllers\CampaignControll
 			dispid: id,
 			qcenabled: qccheck,
 		},
-		......
+		.
 	]
 }
 ```
@@ -2386,7 +2390,7 @@ $app->get('/disp/{dispid}', \App\Controllers\DispositionController::class . ':ge
 			"order": "99"
 		}
 	},
-	.......
+	
 ]
 ```
 
@@ -2425,7 +2429,7 @@ $app->get('/disps[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\DispositionContro
 			"order": "1"
 		}
 	},
-	....
+	
 ]	
 ```
 
@@ -2569,7 +2573,7 @@ $app->get('/dnccomplain/search/{camp_id}/{phone}', \App\Controllers\DncControlle
 		"source": null,
 		"note": null
 	},
-	.....
+	
 ]
 ```
 
@@ -2596,7 +2600,7 @@ $app->get('/dncglobal/search/{data}', \App\Controllers\DncController::class . ':
 		"updated_at": null,
 		"deleted_at": null
 	},
-	.......
+	
 ]
 ```
 Actualiza o crea un DNC
@@ -2985,7 +2989,7 @@ resultado
             "aws_websocket": "fcmjso36b7.execute-api.us-east-1.amazonaws.com",
             "region": "us-east-1"
         },
-		........
+		.
 	]
 }	
 ```
@@ -3057,7 +3061,7 @@ Necesita cual especificamente es el user a validar para devolver la informacion 
                     }
                 ]
             },
-            ....... 
+             
             {
                 "id": "4",
                 "headertext": "dnc",
@@ -3127,7 +3131,7 @@ Necesita cual especificamente es el user a validar para devolver la informacion 
                     }
                 ]
             },
-            .......
+            
         ],
         "roles": [
             {
@@ -3148,7 +3152,7 @@ Necesita cual especificamente es el user a validar para devolver la informacion 
                 "roles_order": "99",
                 "admin_type": "1"
             },
-            ..........
+            
         ],
         "aws_websocket": "fcmjso36b7.execute-api.us-east-1.amazonaws.com",
         "region": "us-east-1",
@@ -3274,7 +3278,7 @@ $app->get('/teams[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\QueueTableControl
 		"updated_at": "2022-01-07 18:42:48",
 		"deleted_at": null
 	},
-	....
+	
 ]
 ```
 
@@ -3383,7 +3387,7 @@ $app->get('/queues_table', \App\Controllers\QueueTableController::class . ':list
 			},
 		]
 	},
-	.....
+	
 }	
 ```
 
@@ -3560,7 +3564,7 @@ $app->put('/queue_table', \App\Controllers\QueueTableController::class . ':modif
             queue_name:  $('#name').val().toLowerCase(),
             interface: 'Agent/'.concat($(this).data('agentcode')),
         },
-		...
+		.
 	],
 }	
 ```
@@ -3653,7 +3657,7 @@ $app->get('/timezone/{id}', \App\Controllers\TimeZoneController::class . ':getTi
 		"systemtzid": "95",
 		"sla": "1"
 	},
-	.....
+	
 ]	
 ```
 
@@ -3799,7 +3803,7 @@ resultado
 		"enabled": "1",
 		"dls": "1"
 	},
-	.....
+	
 ]	
 ```
 
@@ -4351,13 +4355,13 @@ $app->get('/user/{userid}', \App\Controllers\UserController::class . ':getuser')
 		"phone_number": "",
 		"maxchannels": "200",
 		"hashed": "$2y$10$HGkst.WeaJjv\/s3k3sxhm.DbqrtnqhwiV0TqG005Up95fslil1tmq",
-		"refresh_token": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwi.....",
+		"refresh_token": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwi",
 		"created_at": "2022-10-19T20:33:40.000000Z",
 		"updated_at": "2024-09-30T09:57:03.000000Z",
 		"deleted_at": null,
-		"idtoken": "eyJraWQiOiJnVTVhMEUxUW95bGVtaFwvWE8xc3hjMHQ0NE....",
+		"idtoken": "eyJraWQiOiJnVTVhMEUxUW95bGVtaFwvWE8xc3hjMHQ0NE",
 		"lastlogin": "2024-09-30 04:57:03",
-		"Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ0ZW5hbnR....",
+		"Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ0ZW5hbnR",
 		"Teams": [
 			{
 				"memberid": 40067,
@@ -4384,7 +4388,7 @@ $app->get('/user/{userid}', \App\Controllers\UserController::class . ':getuser')
 				"updated_at": "2024-01-17 16:57:43",
 				"deleted_at": null
 			},
-.....
+
 		],
 		"agent": {
 			"agentid": 828,
@@ -4506,7 +4510,7 @@ Recupera los conditions
 		"orderfields": "order by seed",
 		"indexname": ""
 	},
-	....
+	
 ]
 
 Adiciona/modifica
@@ -4610,7 +4614,7 @@ $app->put('/uiproject/{projectid}', \App\Controllers\UIProjectController::class 
 	       "title": "Script test",
 		   "scriptName": "roust.twig",
 		   "description": "Script for campaign pdi_test_cl test 2 ",
-		   "html_src":"PGRpdiBjbGFzcz0iY29udGFpbm...
+		   "html_src":"PGRpdiBjbGFzcz0iY29udGFpbm.
 	    }
 	]
 } 
@@ -4631,7 +4635,7 @@ $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class
 			"projectid": "161",
 			"parameterlist": "testsb\/firewall old",
 			"tenantid": "138",
-			"html_src": "IyBGaXJld2FsbCBj....",
+			"html_src": "IyBGaXJld2FsbCBj",
 			"logic_code": "",
 			"alert_text": "",
 			"created": "2023-05-25T16:20:30.000000Z",
@@ -4646,14 +4650,14 @@ $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class
 			"projectid": "161",
 			"parameterlist": "testsb\/List_Phones",
 			"tenantid": "138",
-			"html_src": "bGVhZF9waG9uZSxsZ....",
+			"html_src": "bGVhZF9waG9uZSxsZ",
 			"logic_code": "",
 			"alert_text": "",
 			"created": "2023-05-25T16:21:45.000000Z",
 			"lastmodified": "0000-00-00 00:00:00",
 			"startpage": "0"
 		},
-	.......
+	
 	]
 }
 
@@ -4666,8 +4670,8 @@ Hace un parser del html separando las posibles preguntas, respuestas y botones (
 	"title":"this the title",
 	"description":"how to describe",
 	"parameterlist":"500001ak_0215_v5/500001ak_0215_v5_Script",
-	"html_src":"sdsfasdsd ....",
-	"alert_text":"dssdsf ..",
+	"html_src":"sdsfasdsd ",
+	"alert_text":"dssdsf ",
 	"logic_code":""
  }
 
@@ -4744,7 +4748,7 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 				"updated_at": "2024-02-13 16:42:50",
 				"deleted_at": null
 			},
-.......
+
 		],
 		"survey_disposition_by_survey": [
 			{
@@ -4786,7 +4790,7 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 					"integration_type": "0"
 				}
 			},
-		.....
+		
 			}
 		],
 		"survey_question_by_survey": [
@@ -4856,13 +4860,13 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 								"disposition": null
 							}
 						},
-			.........
+			
 					]
 				},
 				"survey_flags": null,
 				"used": 0
 			},
-			............
+			
 			
 		],
 		"campaign": {
@@ -4884,7 +4888,7 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 			"inbound_number": "_cmp1230$$",
 			"queue_name": "q201d117455304e0f7f7",
 			"maxretrys": "5",
-		...........
+		.
 		},
 		"used": 0
 	}
@@ -5237,7 +5241,7 @@ $app->get('/survey_question_by_survey/{surveyquestionid}', \App\Controllers\Surv
 			},
 			"survey_questions": null
 		},
-		...........
+		.
 	]
 }	
 
@@ -5309,7 +5313,7 @@ $app->get('/survey_answer/{answerid}', \App\Controllers\SurveyController::class 
 					"updated_at": "2023-04-24 15:24:01",
 					"deleted_at": null
 				},
-			........
+			.
 			],
 			"survey_answers_by_questions": [
 				{
@@ -5317,7 +5321,7 @@ $app->get('/survey_answer/{answerid}', \App\Controllers\SurveyController::class 
 					"position": "0",
 					"used": 0
 				},
-				......
+				.
 			]
 		},
 
@@ -5473,7 +5477,7 @@ $app->get('/survey_campaigns/{surveyid}', \App\Controllers\SurveyController::cla
 			"camp_name": "testmanual",
 			"urlcall": 1
 		},
-		.....
+		
 	]
 }	
 
@@ -5509,7 +5513,7 @@ $app->get('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':get
 			"integration_type": "1",
 			"vanid": "4973626"
 		},
-		..........
+		
 	]
 }
 
@@ -5617,7 +5621,7 @@ salida
 		{
 			"faq_id": "17",
 			"title": "How to change calling speed",
-			"content": "<p><strong>Speeding up or slowing down your calling<\/strong.....<\/p>",
+			"content": "<p><strong>Speeding up or slowing down your calling<\/strong<\/p>",
 			"keywords": "CALLING",
 			"status": "1"
 		},
@@ -5628,14 +5632,14 @@ salida
 			"keywords": "calling campaigns getting_started",
 			"status": "1"
 		},
-		........
+		.
 	]
 }
 $app->get('/faq[/{id}]', \App\Controllers\FAQController::class . ':listFAQ');
 {
 	"faq_id": "17",
 	"title": "How to change calling speed",
-	"content": "<p><strong>Speeding up or slowing down your calling<\/strong.....<\/p>",
+	"content": "<p><strong>Speeding up or slowing down your calling<\/strong<\/p>",
 	"keywords": "CALLING",
 	"status": "1"
 },
@@ -5646,7 +5650,7 @@ $app->put('/faq/{id}', \App\Controllers\FAQController::class . ':modifyFAQ');
 {
 	"faq_id": "17",
 	"title": "How to change calling speed",
-	"content": "<p><strong>Speeding up or slowing down your calling<\/strong.....<\/p>",
+	"content": "<p><strong>Speeding up or slowing down your calling<\/strong<\/p>",
 	"keywords": "CALLING",
 	"status": "1"
 },
@@ -5693,12 +5697,12 @@ $app->get('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class 
 					"deleted_at": null,
 					"phoneid_fk": "1325"
 				},
-				......
+				.
 			],
 			"dials": 285,
 			"atc": 142.5
 		},
-		........
+		.
 	]
 }
 
@@ -5786,7 +5790,7 @@ $app->get('/usa_states', \App\Controllers\StateController::class . ':usaStates')
 		"FM": "Federated States of Micronesia",
 		"GA": "Georgia",
 		"GU": "Guam",
-		.....
+		
 	]
 }	
 
@@ -5802,7 +5806,7 @@ $app->get('/rate_centers/{state}', \App\Controllers\PhoneController::class . ':g
 				"334"
 			]
 		},
-		.....
+		
 	]
 }
 
@@ -5848,7 +5852,7 @@ $app->get('/disposition_by_campaign/{camp_id}', \App\Controllers\DispositionCont
 			"integration_type": "0"
 		}
 	},
-	.......
+	
 ]
 
 Por tenant
@@ -5886,7 +5890,7 @@ $app->get('/disposition_by_tenant/{id}', \App\Controllers\DispositionController:
 			"order": "1"
 		}
 	},
-	......
+	.
 ]	
 
 Retorna el unique id del call id
@@ -5959,7 +5963,7 @@ $app->get('/file_template/{id}', \App\Controllers\TemplateController::class . ':
 			"updated_at": "2023-12-19T02:59:08.000000Z",
 			"deleted_at": null
 		},
-		......
+		.
 	}
 }	
 ```
@@ -5967,7 +5971,7 @@ $app->get('/file_template/{id}', \App\Controllers\TemplateController::class . ':
 
 $app->get('/template_by_option', \App\Controllers\TemplateController::class . ':getFileTemplatebyLine');
 Igual a la anterior pero usando el file_header, ejemplo:
-https://apidev.callevo.net/api/public/template_by_option?file_header=Y3VzdG9tMSxJbnZvaW..... 
+https://apidev.callevo.net/api/public/template_by_option?file_header=Y3VzdG9tMSxJbnZvaW 
 El header debe ser codificado en base64
 
 Crea/modifica un template
@@ -5990,7 +5994,7 @@ $app->put('/template[/{poolid}]', \App\Controllers\TemplateController::class . '
 			"field_source": "lead_lname",
 			"field_destination": "lead_lname"
 		},
-		....
+		
 	}
 }
 
@@ -6021,7 +6025,7 @@ $app->get('/file_templates', \App\Controllers\TemplateController::class . ':inde
 				"updated_at": "2021-09-17T20:51:24.000000Z",
 				"deleted_at": null
 			},
-			......
+			.
 		]
 	}
 ]
@@ -6061,7 +6065,7 @@ $app->get('/pool/template_edit[/{id}[/{poolid}[/{campid}]]]', \App\Controllers\T
 				"updated_at": "2022-10-20T14:31:57.000000Z",
 				"deleted_at": null
 			},
-			....
+			
 		],
 		"destColumns": [
 			{
@@ -6084,9 +6088,9 @@ $app->get('/pool/template_edit[/{id}[/{poolid}[/{campid}]]]', \App\Controllers\T
 				"idx": 8,
 				"value": "city"
 			},
-			....
+			
 		],
-		"destJColumns": "W3siaWR4IjowLCJ2YWx1ZSI6ImFnZSJ9LHsiaWR.....",
+		"destJColumns": "W3siaWR4IjowLCJ2YWx1ZSI6ImFnZSJ9LHsiaWR",
 		"opt": "",
 		"file_template": "503",
 		"template_name": "JJSC_test_file3.csv-template",
@@ -6147,7 +6151,7 @@ $app->put('/pool/add', \App\Controllers\PoolController::class . ':savePool');
 		 "firstline":"bGVhZF9mbmFtZSxsZWFkX2xuYW1lLGxlYWRfcGhvbmUsY3VzdG9tMSxpbmxpbmVjYWxsaWQscmVjb3JkaW5naWRuYW1l",
 		 "totalrecords":20,
 		 "poolfile":"C: \\\\fakepath\\\\RickTestnumbers-test2.csv",
-		 "filecontent":"bGVhZF9mbmFtZSx....",
+		 "filecontent":"bGVhZF9mbmFtZSx",
 		"poolid":-1
 		}
 }
@@ -6514,7 +6518,7 @@ $app->get('/poolstat/{id}', \App\Controllers\PoolController::class . ':getPoolSt
 			"updated_at": "2024-08-19 16:37:18"
 		}
 	},
-	.....
+	
 }	
 Devuelve el poolid activo para la camp
 $app->get('/active_pool/{campid}', \App\Controllers\PoolController::class . ':getActivePool');
@@ -6720,7 +6724,7 @@ $app->get('/campaignpool/{id}', \App\Controllers\PoolController::class . ':getCa
 			"indexname": ""
 		}
 	},
-	.....
+	
 ]	
 
 Lista los (files) pools con su relacion de camp
@@ -6783,10 +6787,10 @@ $app->get('/files', \App\Controllers\PoolController::class . ':listall')->setNam
 			"camp_type": "CL",
 			"ratio": "3:1",
 			"status": "0",
-			......
+			.
 		}
 	},
-	.....
+	
 ]
 
 Pool con todos los datos y relaciones
@@ -6813,7 +6817,7 @@ $app->get('/file/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 	"FieldCond": "",
 	"OperCond": "",
 	"ValueCond": "",
-....
+
 	"campaign": {
 		"camp_id": 425,
 		"camp_name": "camp-name-cl",
@@ -6825,7 +6829,7 @@ $app->get('/file/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 		"tenantid": "138",
 		"groupid": "162",
 		"camp_description": "",
-		......
+		.
 	},
 	"campaign_pool": {
 		"cpoolid": 1644,
@@ -6867,7 +6871,7 @@ $app->get('/file/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 				"updated_at": "2022-10-20T14:31:57.000000Z",
 				"deleted_at": null
 			},
-			........
+			.
 		]
 	}
 }
@@ -6918,7 +6922,7 @@ $app->get('/pool/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 				"created_at": "2022-10-20T14:31:41.000000Z",
 				"updated_at": "2022-10-20T14:31:57.000000Z"
 			},
-			...
+			.
 		]	
 	}
 }
@@ -6987,7 +6991,7 @@ $app->get('/phone/{id}', \App\Controllers\PhoneController::class . ':getPhone');
 		"phoneid_fk": null,
 		"phone_type": null
 	},
-	.....
+	
 ]
 
 Agrega/modifica un phone
@@ -7029,7 +7033,7 @@ salida
 
 /*
 Saul Diaz — 08/22 at 12:25 PM
-@jjsc si recibes esto buscas el number en phones .. en flagged pones 1 y en flag_result result pones el valor
+@jjsc si recibes esto buscas el number en phones  en flagged pones 1 y en flag_result result pones el valor
 */
 $app->get('/600reject', \App\Controllers\PhoneController::class . ':_600reject');
 entrada
@@ -7163,7 +7167,7 @@ $app->get('/recording/{id}', \App\Controllers\RecordingController::class . ':get
 		"recfilename_ext": "gsm",
 		"used": "y"
 	},
-	...........
+	.
 ]
 
 Agrega/modifica asterisk recording, en el filecontent va el file en base64 y este se almacenará en el s3
@@ -7220,7 +7224,7 @@ $app->get('/ivrs', \App\Controllers\IvrController::class . ':listall');
 				"parameter2": "",
 				"parameter3": ""
 			},
-........
+.
 		],
 		"ivr_keys": []
 	},
@@ -7260,7 +7264,7 @@ $app->get('/ivrs', \App\Controllers\IvrController::class . ':listall');
 		],
 		"ivr_keys": []
 	},
-	.....
+	
 ]	
 $app->get('/ivr/{id}', \App\Controllers\IvrController::class . ':getIvr');
 {
@@ -7343,7 +7347,7 @@ $app->put('/ivr[/{id}]', \App\Controllers\IvrController::class . ':modifyIvr');
             "parameter2": "",
             "parameter3": ""
         },
-      ....
+      
     ],
     "enablekeys": "y",
     "ivrkeys": [
@@ -7356,7 +7360,7 @@ $app->put('/ivr[/{id}]', \App\Controllers\IvrController::class . ':modifyIvr');
             "parameter2": "",
             "parameter3": ""
         },
- .....
+ 
     ],
     "force_gen_ivr": "n"
 }
@@ -7486,7 +7490,7 @@ https://apidev.callevo.net/api/public/newagent/get_disposition?camp_id=425
 		"clientcode": "",
 		"qcenabled": "n"
 	},
-	....
+	
 ]	
 
 $app->get('/newagent/transfer_agents/{tenantid}', \App\Controllers\AgentController::class . ':getTransferAgent');
@@ -7702,7 +7706,7 @@ $app->get('/state/{id}', \App\Controllers\StateController::class . ':getState');
 		"GU": "Guam",
 		"HI": "Hawaii",
 		"IA": "Iowa",
- ....
+ 
     }
 }	
 Agrega/modifica 
@@ -7746,10 +7750,10 @@ $app->get('/users_type', \App\Controllers\UserTypeController::class . ':index')-
 					"role_id": "17"
 				}
 			},
-			....
+			
 		],
 	}
-......
+.
 ]
 
 Listado abreviado	
@@ -7767,7 +7771,7 @@ $app->get('/user_types_list', \App\Controllers\UserTypeController::class . ':lis
 		"homepage": "tenants",
 		"scopes": "read|write|delete"
 	},
-	....
+	
 ]
 
 Recupera un type	
@@ -7829,7 +7833,7 @@ $app->get('/roles', \App\Controllers\RoleController::class . ':listall')->setNam
 		"created_at": "2018-04-17T02:48:51.000000Z",
 		"updated_at": "2018-04-17T02:48:51.000000Z"
 	},
-	....
+	
 ]	
 
 Recupera 1
@@ -7865,7 +7869,7 @@ Recupera un logo en formato html data image inline
 $app->get('/logo/{id}/{tenantid}', \App\Controllers\ConfigController::class . ':getLogo');
 {
 	"status": "ok",
-	"message": "data:image\/jpeg;base64,\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wBDAAMCAgICAgMCAg....."
+	"message": "data:image\/jpeg;base64,\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wBDAAMCAgICAgMCAg"
 }
 
 Agerga/modifica un logo, filecontent en base64
@@ -7875,7 +7879,7 @@ $app->put('/logo', \App\Controllers\ConfigController::class . ':modifyLogo');
 	
 	"logo":"icono primero con espacios.png",
 	"camp_id":"425",
-	"filecontent":"iVBORw0KGgoAAAANSUhEUgAAADIA..."
+	"filecontent":"iVBORw0KGgoAAAANSUhEUgAAADIA."
 }		
 
 Borra
@@ -7925,7 +7929,7 @@ Salida
 				"created_at": "2023-04-20 14:02:14",
 				"deleted_at": null
 			},
-			.......
+			
 		]
 	}
 }
@@ -7972,7 +7976,7 @@ salida
 				"reccalled": "1",
 				"nexttry": "0"
 			},
-			.....
+			
 		]
 	}
 }
@@ -8006,7 +8010,7 @@ salida
 				"lastcallresult": "0",
 				"trynumbers": "0",
 				"lead_company": "John The Riper C
-				.....
+				
 			}
 		]
 	}
@@ -8040,7 +8044,7 @@ salida
 				"flagged": "0",
 				"ratecenter": ""
 			},
-			.....
+			
 		]
 	}
 }
@@ -8171,7 +8175,7 @@ $app->put('/webform', \App\Controllers\WebFormController::class . ':modifyWebFor
 			"field_webform": "",
 			"field_lead": "",
 		},
-		..........
+		
 	]
 }
 
