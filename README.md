@@ -108,10 +108,8 @@ $app->get('/astcalls', \App\Controllers\CallsController::class . ':listall')->se
 			"busyretrytime": "3000",
 			"amdretrytime": "172800",
 			"startdialing": "00:00:00",
-			.
 		}
 	},
-	.
 ]
 ```
 # Devuelve los agentes activos 
@@ -4464,7 +4462,7 @@ Agrega/modifica user
 
 Crea todas las relaciones (agent.team, crea user en el cognito) y si ya existia un user con el mismo email le toma el passwd
 
-`ADMIN =>`
+`ADMIN => ` En screen user edit se ingresan todos los inputs y se procede a guardar, si userid == -1 es POST caso contrario es PUT
 
 ```php
 $app->post('/user', \App\Controllers\UserController::class . ':modifyUser');
@@ -4480,17 +4478,24 @@ $app->put('/user', \App\Controllers\UserController::class . ':modifyUser');
 }
 ```
 
-Borra el user por id (elimina sus relaciones agent y teams
+Borra el user por id (elimina sus relaciones agent y teams)
+
+`ADMIN => ` En el screen de `users` se permite eliminar una vez que seleccione una fila.
+
+```php
 $app->delete('/user/{id}', \App\Controllers\UserController::class . ':deleteUser');
+```
 
+# ORDERS CONDITIONS 
 
-/**
-* ========================= ORDERS CONDITIONS ==============================
-*/
+`ADMIN => NO SE USA`
 
+```php
 $app->get('/orderconditions', \App\Controllers\OrderConditionController::class . ':listall')->setName('orderconditions');
 $app->get('/ordercondition/{id}', \App\Controllers\OrderConditionController::class . ':getOrderCondition');
+```
 Recupera los conditions
+```js
 [
 	{
 		"ordertypeid": 1,
@@ -4512,26 +4517,44 @@ Recupera los conditions
 	},
 	
 ]
+```
+
 
 Adiciona/modifica
+
+`ADMIN => YA NO SE USA`
+
+```php
 $app->post('/ordercondition', \App\Controllers\OrderConditionController::class . ':modifyOrderCondition');
 $app->put('/ordercondition', \App\Controllers\OrderConditionController::class . ':modifyOrderCondition');
+```
+```js
 {
   ordertypeid: $('#ordertypeid').val(), 
   OrderName:  $('#ordername').val(), 
   orderfields: $('#orderfields').val(), 
   indexname: $('#indexname').val() 
 }
+```
 
 Borra
+
+`ADMIN => YA NO SE USA`
+
+```php
 $app->delete('/ordercondition/{id}', \App\Controllers\OrderConditionController::class . ':deleteOrderCondition');
+```
 
+# UIPROJECT (external script)  
 
-/**
-* =====================  UIPROJECT (external script)  ===================================
-*/
 Recupera el project
+
+`ADMIN => NO SE USA` Admin toma de sus modelos
+
+```php
 $app->get('/uiprojects', \App\Controllers\UIProjectController::class . ':getUiprojects');    
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -4583,9 +4606,15 @@ $app->get('/uiprojects', \App\Controllers\UIProjectController::class . ':getUipr
 		}
 	]
 }
+```
 
 
+`ADMIN => NO SE USA` Admin toma de sus modelos
+
+```php
 $app->get('/uiproject/{projectid}', \App\Controllers\UIProjectController::class . ':getUiproject');    
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -4601,10 +4630,28 @@ $app->get('/uiproject/{projectid}', \App\Controllers\UIProjectController::class 
 		}
 	]
 }
+```
 
 Adiciona/modifica
+
+`ADMIN => ` Screen `External scripts`, opcion `edit` Guarda la informacion modificada
+
+```php
 $app->post('/uiproject', \App\Controllers\UIProjectController::class . ':modifyUiproject');    
 $app->put('/uiproject/{projectid}', \App\Controllers\UIProjectController::class . ':modifyUiproject');    
+```
+Parametros de entrada
+```js
+{
+    projectname: $("#projectname").val(),
+    callpath: callpath.toLowerCase()
+}
+```
+Parametros de salida
+```json
+{"status": 'ok', "message": 1032}
+```
+```json
 {
     "projectname": "PDI test Project name",
 	"camp_id": 347,
@@ -4614,16 +4661,23 @@ $app->put('/uiproject/{projectid}', \App\Controllers\UIProjectController::class 
 	       "title": "Script test",
 		   "scriptName": "roust.twig",
 		   "description": "Script for campaign pdi_test_cl test 2 ",
-		   "html_src":"PGRpdiBjbGFzcz0iY29udGFpbm.
+		   "html_src":"PGRpdiBjbGFzcz0iY29udGFpbm."
 	    }
 	]
 } 
+```
 
 Borra
+```php
 $app->delete('/uiproject/{projectid}', \App\Controllers\UIProjectController::class . ':deleteUiproject'); 
+```
+
 
 Recupera todos los escripts del proyecto
+```php
 $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class . ':getUiscript');    
+```
+```
 {
 	"status": "ok",
 	"message": [
@@ -4660,11 +4714,16 @@ $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class
 	
 	]
 }
+```
 
 Inserta/modifica un script para el proyecto
+
+```
 $app->post('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class . ':insertUiscript');   
 $app->put('/uiscript/{scriptid}', \App\Controllers\UIProjectController::class . ':updateUiscript');    
+```
 Hace un parser del html separando las posibles preguntas, respuestas y botones (disp) para llenar las tablas correspondientes de external_script_questions y external_script_answers 
+```
  {
 	"scriptid":0,
 	"title":"this the title",
@@ -4674,17 +4733,22 @@ Hace un parser del html separando las posibles preguntas, respuestas y botones (
 	"alert_text":"dssdsf ",
 	"logic_code":""
  }
-
+```
 
 Borra 
+```
 $app->delete('/uiscript/{scriptid}', \App\Controllers\UIProjectController::class . ':deleteUiscript');    
+```
 
 Establece el scriptid como pagina inicial de su proyecto
+```
 $app->post('/uiscript/startpage/{scriptid}', \App\Controllers\UIProjectController::class . ':startUiscript'); 
+```
+```
 {
 	"scriptid": 2323
 }
-
+```
 Envia en un zip multiples scripts para un proyecto
 $app->post('/upload_zipmultiscripts/{projectid}/{callpath}', \App\Controllers\UIProjectController::class .':uploadMultiScript'); 
 Los files dentro del zip deben ser de la siguiente forma
