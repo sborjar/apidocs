@@ -1,10 +1,13 @@
-# API DOCS
+ API DOCS
 
-Fecha: 2024-09
+`Fecha: 2024-09`
 
-> En todos los casos a menos que se especifique se toman los datos como username, email del token y se determina el tenantid en la base para las operaciones
+# Importante
 
-# Lista status con relacion a las llamadas activas campaign y agent
+En todos los casos a menos que se especifique se toman los datos como username, email del token y se determina el tenantid en la base para las operaciones.
+<hr>
+
+Lista status con relacion a las llamadas activas campaign y agent
 
 `En ADMIN => NO SE USA | No se utiliza |  Ruta comentada desde la base`
 
@@ -112,7 +115,8 @@ $app->get('/astcalls', \App\Controllers\CallsController::class . ':listall')->se
 	},
 ]
 ```
-# Devuelve los agentes activos 
+
+Devuelve los agentes activos 
 
 >`ADMIN`. se utiliza en dos lugares para obtener la lista de agentes activos para el chat y para el `Screen Active Agents` los lista y pone en una tabla.
 
@@ -139,7 +143,7 @@ $app->get('/activeagents[/{campid}]', \App\Controllers\AgentController::class . 
 	},
 ]
 ```
-# AREACODES 
+# Area Codes
 
 Devuelve los areas codes	
 
@@ -180,7 +184,7 @@ $app->get('/areacodes', \App\Controllers\AreacodeController::class . ':listall')
 	}, 
 ]	
 ```
-	
+
 Devuelve un area code por su id
 
 `En ADMIN => NO SE USA | No se utiliza |  Ruta comentada desde la base`
@@ -4649,7 +4653,7 @@ Parametros de entrada
 ```
 Parametros de salida
 ```json
-{"status": 'ok', "message": 1032}
+{"status": "ok", "message": 1032}
 ```
 ```json
 {
@@ -4674,10 +4678,13 @@ $app->delete('/uiproject/{projectid}', \App\Controllers\UIProjectController::cla
 
 
 Recupera todos los escripts del proyecto
+
+`ADMIN => ` Esta opcion es de `pages` dentro de `External Scripts`, la logica es que primero se debe crear un project y luego adicionar paginas. Al utilizar esta ruta se mira todos los scripts externos adicionados al proyecto seleccionado.
+
 ```php
 $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class . ':getUiscript');    
 ```
-```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -4718,12 +4725,14 @@ $app->get('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class
 
 Inserta/modifica un script para el proyecto
 
-```
+`ADMIN => ` Esta opcion es de `pages` dentro de `External Scripts`.
+
+```php
 $app->post('/uiscript[/{projectid}]', \App\Controllers\UIProjectController::class . ':insertUiscript');   
 $app->put('/uiscript/{scriptid}', \App\Controllers\UIProjectController::class . ':updateUiscript');    
 ```
 Hace un parser del html separando las posibles preguntas, respuestas y botones (disp) para llenar las tablas correspondientes de external_script_questions y external_script_answers 
-```
+```json
  {
 	"scriptid":0,
 	"title":"this the title",
@@ -4736,42 +4745,64 @@ Hace un parser del html separando las posibles preguntas, respuestas y botones (
 ```
 
 Borra 
-```
+
+`ADMIN => ` Esta opcion es de `pages` dentro de `External Scripts`. Y dentro de `pages` tiene cada registro la posibilidad de editar, eliminar o descargar. El eliminar es esta ruta.
+
+```php
 $app->delete('/uiscript/{scriptid}', \App\Controllers\UIProjectController::class . ':deleteUiscript');    
 ```
 
 Establece el scriptid como pagina inicial de su proyecto
-```
+
+`ADMIN => ` Esta opcion es de `pages` dentro de `External Scripts`. Y dentro de `pages` tiene cada registro la posibilidad de determinar como principal, con la que el script comenzará.
+
+```php
 $app->post('/uiscript/startpage/{scriptid}', \App\Controllers\UIProjectController::class . ':startUiscript'); 
 ```
-```
+```json
 {
 	"scriptid": 2323
 }
 ```
+
 Envia en un zip multiples scripts para un proyecto
+
+`ADMIN => NO SE USA` 
+
+```php
 $app->post('/upload_zipmultiscripts/{projectid}/{callpath}', \App\Controllers\UIProjectController::class .':uploadMultiScript'); 
+```
 Los files dentro del zip deben ser de la siguiente forma
 page1.html,pasge2.twig   <- paginas html o en formato twig
 page3.logic <- codigo html para ejecutar logicas 
 
 Crea un reporte dinamico de la campaña a partir de los datos del script (questions,answers, dispositions)
+
+`ADMIN => ` Esta opcion se localiza en Reports/Campaign/Script Result y la logica es que si selecciona `External Script` en el dropdown de `Type Report` se ejecutara esta ruta.
+
+```php
 $app->post('/report_from_external_script[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\UIProjectController::class . ':reportFromParseScript'); 
- {
+```
+```json
+{
     "camp_id": "1534",
     "rptdate_ini": "2024-09-03",
     "rptdate_end": "2024-09-04",
     "total_records": "0"
 }
+```
 
+# SURVEY (new scriptbuilder) 
 
-/**
- * =================   SURVEY (new scriptbuilder) ========================================
- */
- 
 Devuelve uno o mas survey 
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/surveys', \App\Controllers\SurveyController::class . ':getSurvey');
 $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':getSurvey');
+```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -4854,8 +4885,6 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 					"integration_type": "0"
 				}
 			},
-		
-			}
 		],
 		"survey_question_by_survey": [
 			{
@@ -4952,15 +4981,20 @@ $app->get('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':get
 			"inbound_number": "_cmp1230$$",
 			"queue_name": "q201d117455304e0f7f7",
 			"maxretrys": "5",
-		.
 		},
 		"used": 0
 	}
 }
+```
 
+Devuelve una lista abreviada
 
-devuelve una lista abreviada
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/surveys_list', \App\Controllers\SurveyController::class . ':getSurveysList');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -4988,10 +5022,17 @@ $app->get('/surveys_list', \App\Controllers\SurveyController::class . ':getSurve
 		},
 	]
 }	
+```
 
-Inserta/modifica survey con o sin relaciones, si estas existen se actualizan o se crean
+Inserta/modifica survey con o sin relaciones, si estas existen se actualizan o se crean.
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey', \App\Controllers\SurveyController::class . ':modifySurvey');
 $app->put('/survey[/{surveyid}]', \App\Controllers\SurveyController::class . ':modifySurvey');
+```
+```json
 {
     "survey_name": "Hoy will i Know",
     "description": "Hoy will i Know",
@@ -5006,10 +5047,17 @@ $app->put('/survey[/{surveyid}]', \App\Controllers\SurveyController::class . ':m
 	"survey_question_by_survey": [],
 	"survey_questions": []
 }
+```
 
 Devuelve uno mas actions 
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/survey_actions', \App\Controllers\SurveyController::class . ':getSurveyActions');
 $app->get('/survey_action/{actionid}', \App\Controllers\SurveyController::class . ':getSurveyActions');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5025,10 +5073,17 @@ $app->get('/survey_action/{actionid}', \App\Controllers\SurveyController::class 
 		},
 	]
 }	
+```
 
-Devuelve uno o mas registros con sus relaciones Survey, SurveyQuestions, SurveyAnswersByQuestions
+Devuelve uno o mas registros con sus relaciones Survey, SurveyQuestions, SurveyAnswersByQuestions.
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/survey_actions_by_survey', \App\Controllers\SurveyController::class . ':getActionBySurvey');
 $app->get('/survey_action_by_survey/{answerbysurveyid}', \App\Controllers\SurveyController::class . ':getActionBySurvey');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5101,10 +5156,15 @@ $app->get('/survey_action_by_survey/{answerbysurveyid}', \App\Controllers\Survey
 		},
 	]
 }	
+```
 
 Modifica/agrega un action sin relaciones
+
+```php
 $app->post('/survey_action_by_survey', \App\Controllers\SurveyController::class . ':modifyActionBySurvey');
 $app->put('/survey_action_by_survey/{answerbysurveyid}', \App\Controllers\SurveyController::class . ':modifyActionBySurvey');
+```
+```json
 {
 	"answerbysurveyid": 67,
 	"surveyid": "3",
@@ -5118,13 +5178,21 @@ $app->put('/survey_action_by_survey/{answerbysurveyid}', \App\Controllers\Survey
 	"quota_value": "0",
 	"survey": null,
 }	
+```
 
 Borra un action por id
+
+```php
 $app->delete('/survey_action_by_survey/{answerbysurveyid}', \App\Controllers\SurveyController::class . ':deleteActionBySurvey');
+```
 
 Devuelve una o mas preguntas con sus relaciones (answers_by_questios,answers, action_by_survey, question_by _survey) 
+
+```php
 $app->get('/survey_questions', \App\Controllers\SurveyController::class . ':getSurveyQuestions');
 $app->get('/survey_question/{questionid}', \App\Controllers\SurveyController::class . ':getSurveyQuestions');
+```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -5226,44 +5294,58 @@ $app->get('/survey_question/{questionid}', \App\Controllers\SurveyController::cl
 		]
 	}
 }
+```
 
 Agrega/modifica question con o sin sus relaciones
+
+`ADMIN =>` Se utiliza en new campaign wizard para crear preguntas en el script builder light.
+
+```php
 $app->post('/survey_question', \App\Controllers\SurveyController::class . ':modifySurveyQuestions');
 $app->put('/survey_question[/{questionid}]', \App\Controllers\SurveyController::class . ':modifySurveyQuestions');
+```
+```json
 {
-		"questionid": 446,
-		"question": "Make rick President",
-		"description": "",
-		"alternate": null,
-		"question_type": "1",
-		"integration_type": "1",
-		"vanid": "481827",
-		"tenantid": "97",
-		"datatype": "inputbox",
-		"fieldtype": "alphanumeric",
-		"target": "",
-		"userid": "0",
-		"created_at": "2022-06-10 14:21:13",
-		"updated_at": "2022-07-27 19:50:34",
-		"deleted_at": null,
-		"user": null,
-		"survey_answers_by_questions": [
-		],
-		"survey_actions_by_survey": [
-		],
-		"survey_question_by_survey": [
-		]
-	}
+	"questionid": 446,
+	"question": "Make rick President",
+	"description": "",
+	"alternate": null,
+	"question_type": "1",
+	"integration_type": "1",
+	"vanid": "481827",
+	"tenantid": "97",
+	"datatype": "inputbox",
+	"fieldtype": "alphanumeric",
+	"target": "",
+	"userid": "0",
+	"created_at": "2022-06-10 14:21:13",
+	"updated_at": "2022-07-27 19:50:34",
+	"deleted_at": null,
+	"user": null,
+	"survey_answers_by_questions": [
+	],
+	"survey_actions_by_survey": [
+	],
+	"survey_question_by_survey": [
+	]
 }
-
+```
 
 Borra 
+```php
 $app->delete('/survey_question/{questionid}[/{forcelib}]', \App\Controllers\SurveyController::class . ':deleteSurveyQuestions');
 $app->delete('/survey_questions', \App\Controllers\SurveyController::class . ':deleteSurveyQuestions');
+```
 
 Devuelve uno o mas question by survey
+
+`ADMIN =>` Para Dashboards cuando el `Grand Type` sea Script Result, Filter By: Survey
+
+```php
 $app->get('/survey_questions_by_survey', \App\Controllers\SurveyController::class . ':getQuestionBySurvey');
 $app->get('/survey_question_by_survey/{surveyquestionid}', \App\Controllers\SurveyController::class . ':getQuestionBySurvey');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5305,48 +5387,82 @@ $app->get('/survey_question_by_survey/{surveyquestionid}', \App\Controllers\Surv
 			},
 			"survey_questions": null
 		},
-		.
 	]
 }	
+```
 
 
 Agrega/modifica question by survey (deben existir en la tabla questions)
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey_question_by_survey', \App\Controllers\SurveyController::class . ':modifyQuestionBySurvey');
 $app->put('/survey_question_by_survey/{surveyquestionid}', \App\Controllers\SurveyController::class . ':modifyQuestionBySurvey');
+```
+```json
 {
     "surveyid": "1",
     "questionid": "11",
     "explanation": "Pregunta 11",
     "position": "-1"
 }
+```
 
 
 Borra de la tabla question_by_survey (no toca questions)
+
+`ADMIN => NO SE USA`
+
+```php
 $app->delete('/survey_question_by_survey[/{surveyquestionid}/{forcelib}]', \App\Controllers\SurveyController::class . ':deleteQuestionBySurvey');
+```
+```json
 {
 	"surveyid": 1,
 	"questionid": 11
 }
+```
 
 Actualiza las posiciones de las preguntas
-$app->put('/survey_question_by_survey_block/{surveyid}', \App\Controllers\SurveyController::class . ':modifyQuestionBySurveyInBlock');
- [
-	 {"surveyquestionid":74,"position":0},
-	 {"surveyquestionid":73,"position":1},
-	 {"surveyquestionid":71,"position":2}
- ]
- 
-Chequea y arregla que las posiciones de las preguntas sean secuenciales sin saltos 
-$app->post('/survey_question_positions/{surveyid}', \App\Controllers\SurveyController::class . ':checkSurveyQuestionPositions');	 
 
+`ADMIN => NO SE USA`
+
+```php
+$app->put('/survey_question_by_survey_block/{surveyid}', \App\Controllers\SurveyController::class . ':modifyQuestionBySurveyInBlock');
+```
+```json
+[
+	{"surveyquestionid":74,"position":0},
+	{"surveyquestionid":73,"position":1},
+	{"surveyquestionid":71,"position":2}
+]
+```
+ 
+Chequea y arregla que las posiciones de las preguntas sean secuenciales sin saltos
+
+`ADMIN => NO SE USA`
+
+```php 
+$app->post('/survey_question_positions/{surveyid}', \App\Controllers\SurveyController::class . ':checkSurveyQuestionPositions');	 
+```
 
 Devuelve el question_by_survey id con todas sus relaciones
-$app->get('/survey_questions_by_surveyid/{surveyid}', \App\Controllers\SurveyController::class . ':getQuestionBySurveyID');
+
+`ADMIN =>` Para Dashboards cuando el `Grand Type` sea Script Result, Filter By: Survey
+
+```php
+$app->get('/survey_questions_by_surveyid/{surveyid}', 
+\App\Controllers\SurveyController::class . ':getQuestionBySurveyID');
+```
 Ver el resultado arriba
 
 Devuelve uno mo mas answer con sus relaciones
+```php
 $app->get('/survey_answers', \App\Controllers\SurveyController::class . ':getSurveyAnswers');
 $app->get('/survey_answer/{answerid}', \App\Controllers\SurveyController::class . ':getSurveyAnswers');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5377,7 +5493,6 @@ $app->get('/survey_answer/{answerid}', \App\Controllers\SurveyController::class 
 					"updated_at": "2023-04-24 15:24:01",
 					"deleted_at": null
 				},
-			.
 			],
 			"survey_answers_by_questions": [
 				{
@@ -5385,13 +5500,21 @@ $app->get('/survey_answer/{answerid}', \App\Controllers\SurveyController::class 
 					"position": "0",
 					"used": 0
 				},
-				.
 			]
 		},
+	]
+}
+```
 
 Agrega/modifica answers 
+
+`ADMIN =>` Para `Wizard New Campaign` guarda las respuestas a las preguntas ingresadas.
+
+```php
 $app->post('/survey_answer', \App\Controllers\SurveyController::class . ':modifySurveyAnswers');
 $app->put('/survey_answer/{answerid}', \App\Controllers\SurveyController::class . ':modifySurveyAnswers');
+```
+```json
 {
 	"answerid": 2422,
 	"tenantid": "25",
@@ -5404,19 +5527,30 @@ $app->put('/survey_answer/{answerid}', \App\Controllers\SurveyController::class 
 	"deleted_at": null,
 	"disposition": null,
 },
-
+```
 
 Borra answers pot id (opcionalmente la elimina de la lib)
+```php
 $app->delete('/survey_answer/{answerid}[/{forcelib}]', \App\Controllers\SurveyController::class . ':deleteSurveyAnswers');
+```
 Esta ruta se utiliza internamente para borrar mas du un ansewer si se envia los id separados por ,
+```php
 $app->delete('/survey_answers', \App\Controllers\SurveyController::class . ':deleteSurveyAnswers');
-
+```
 Borra de la tabla answer by question
+```php
 $app->delete('/survey_answer_by_question/{answerquestionid}[/{forcelib}]', \App\Controllers\SurveyController::class . ':deleteAnswerByQuestion');
+```
 
-Agrega/modifica un survey con asnswer y questions
+Agrega/modifica un survey con answer y questions
+
+`ADMIN => ` Este se utiliza para guardar los script generados en `new campaign wizards`.
+
+```php
 $app->post('/survey_light[/{surveyid}]', \App\Controllers\SurveyController::class . ':modifySurveyLight');
 $app->put('/survey_light/{surveyid}', \App\Controllers\SurveyController::class . ':modifySurveyLight');
+```
+```json
  {
     "survey_name": "new test now_script",
     "description": "new test now_script",
@@ -5469,15 +5603,19 @@ $app->put('/survey_light/{surveyid}', \App\Controllers\SurveyController::class .
         }
     ]
 }
-
+```
 Borra un survey id con sus relaciones (action, question y disposition) conserva los libs
+```php
 $app->delete('/survey/{surveyid}', \App\Controllers\SurveyController::class . ':deleteSurvey');
-
+```
 Interna, borra los datos de un calltest
+```php
 $app->delete('/surveycalltest/{callid}', \App\Controllers\SurveyController::class . ':deleteSurveyCallTest');
-
-
+```
+```php
 $app->get('/survey_contacts[/{surveyid}]', \App\Controllers\SurveyController::class . ':getContactButton');
+```
+```json
 [
 	{
 		"contact_id": 1,
@@ -5495,18 +5633,32 @@ $app->get('/survey_contacts[/{surveyid}]', \App\Controllers\SurveyController::cl
 		"selected": false
 	}
 ]
+```
 
 Agrega buttos contacts
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey_contact[/{surveyid}]', \App\Controllers\SurveyController::class . ':modifyContactButton');
+```
+```json
 {
 	"contact_id": 3,
 	"label": "Send Text",
 	"selected": false
 }
+```
 
 
 Agrega disposition por surveyid
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey_disposition_by_survey/{surveyid}', \App\Controllers\SurveyController::class . ':modifyDispositionBySurvey');
+```
+```js
 [
 	"surveyid" => $surveyid,
 	"dispid" => $value["dispid"],
@@ -5519,15 +5671,33 @@ $app->post('/survey_disposition_by_survey/{surveyid}', \App\Controllers\SurveyCo
 	"quelog_action" => $value["quelog_action"] ?? "SETDISPHANG",
 	
 ];
+```
 
 Variante de la anterior pero si existe se actualiza
+
+`ADMIN => ` Se utiliza en wl wizard de new campaing para el scripbuilder light.
+
+```php
 $app->post('/disposition_by_survey/{surveyid}', \App\Controllers\SurveyController::class . ':modifyDispositionBySurvey2');
+```
 
 Duplica un surveyid
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey_clone/{surveyid}', \App\Controllers\SurveyController::class . ':cloneSurvey');
+```
 
 Devuelve todas las camp que tienen el surveyid
+
+`ADMIN => NO SE USA`
+
+```php
+
 $app->get('/survey_campaigns/{surveyid}', \App\Controllers\SurveyController::class . ':getSurveyCampaigns');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5543,25 +5713,43 @@ $app->get('/survey_campaigns/{surveyid}', \App\Controllers\SurveyController::cla
 		},
 		
 	]
-}	
+}
+```
 
 Actualiza el urlcall de todas las camp del tenant con el surveyid
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/survey_campaigns/{surveyid}', \App\Controllers\SurveyController::class . ':postSurveyCampaigns');
+```
 
 Determina si la pregunta esta usada
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/survey_get_used_question', \App\Controllers\SurveyController::class . ':getUsedQuestion');
+```
+```json
 {
-	"camp_id" : 456
-	"tenantid" : 138
-	"questionid" : 234
-	"surveyid" : 23 
+	"camp_id" : 456,
+	"tenantid" : 138,
+	"questionid" : 234,
+	"surveyid" : 23 ,
 	"var" : "q1"
 }		
-
+```
 
 Devuelve uno o mas leadflags
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/leadsflag', \App\Controllers\SurveyController::class . ':getLeadFlag');
 $app->get('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':getLeadFlag');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5577,14 +5765,19 @@ $app->get('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':get
 			"integration_type": "1",
 			"vanid": "4973626"
 		},
-		
 	]
 }
+```
 
+Agrega/actualiza leadflags
 
-Agrega/actuliza leadflags
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/leadflag', \App\Controllers\SurveyController::class . ':modifyLeadFlag');
 $app->put('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':modifyLeadFlag');
+```
+```json
 {
 	"flagid": 1,
 	"type": "Activist",
@@ -5597,42 +5790,73 @@ $app->put('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':mod
 	"integration_type": "1",
 	"vanid"
 }
+```
 
 Borra leadflag por su id
+
+`ADMIN => NO SE USA`
+
+```php
 $app->delete('/leadflag/{flagid}', \App\Controllers\SurveyController::class . ':deleteLeadFlag');
+```
+
 Variante interna para borrar muchos id si estos estan separados por ,
+
+`ADMIN => NO SE USA`
+
+```php
 $app->delete('/leadflags', \App\Controllers\SurveyController::class . ':deleteLeadFlag');
+```
 
 Crea un reporte dinamico segun estructura de preguntas, respuestas y disposition 
+
+`ADMIN => ` Esta opcion se localiza en Reports/Campaign/Script Result y la logica es que si selecciona `Survey` en el dropdown de `Type Report` se ejecutara esta ruta.
+
+```php
 $app->post('/report_from_survey[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\SurveyController::class . ':reportFromSurvey');
+```
 
-
-/**
-* ====================== INVITATION ==========================
-*/
+# INVITATION 
 
 Genera un key para invitation
+
+`ADMIN => ` se genera desde dos screens `Projects` que hace la invitacion directamente a la campaña seleccionada  y `Users` que despliega un pop con todas las opciones de user type para que genere una invitacion al tenant con ese user type.
+
+```php
 $app->post('/invitation_generate', \App\Controllers\UserController::class . ':invitationGenerate');
-entrada:
+```
+Entrada
+```json
  {
     "page": "users",
     "usertype": "27",
     "campid": "1646",
 	 "tenantid": 258
 }
+```
 Salida
+```json
 {
 	"status": "ok",
 	"message": "https:\/\/invitation.callevo.net?key=LGqDwkXqLVKrTg58q5FjRo5tRejlmvS5kJfi3xNnIzVUrBg3aO4YQvXfE1VlsW7OdWVWdRsUc1zsoZkGMEW8q4APKxTyxF_ft585Ig"
 }
+```
 
-VAlida la invitacion
+Valida la invitacion
+
+`ADMIN => NO USA`
+
+```php
 $app->post('/invitation_validate', \App\Controllers\UserController::class . ':invitationValidate');
+```
 entrada
+```json
 {
 	"key" : "2_BUlrlb09GuR50e0mHJGPxng_Hfh4CADCFIhCoF8vu_fbQjsJeLkO5dnOmhyCRTCb5VAEoMjBdjt3cMkz-j7NvARRBzBxYvmU2uIp0"
 }
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": {
@@ -5642,10 +5866,17 @@ salida
 		"tenantid": "138"
 	}
 }
+```
 
 Realiza la creacion del user invitado, si el user ya tenia el email registrado toma el passwd y se lo asigna al nuevo que esta creando
+
+`ADMIN =>  NO USA`
+
+```php
 $app->post('/signup_user', \App\Controllers\UserController::class . ':signUp');
+```
 entrada
+```json
 {
     "email":"santiago.borja1@gmail.com",
 	"pass":"NdhG8dFvWED",
@@ -5654,7 +5885,9 @@ entrada
 	"locale":"en",
 	"key":"v_kzRwPZtrRg4BO8VCZeQclmItx2A3WRkpRTF920aFya6oF4Df3XauRozyA6MtMtPLqM-dTt-QGJuBdflwcHT-BPtqFIpJvhiMntNg"
 }
+```
 salida
+```json
 {
 	"status": "Ok",
 	"message": {
@@ -5663,22 +5896,29 @@ salida
 		"usertype": 30
 	}
 }
+```
 
-/**
-* ============================== FAQ routes ====================================
-*/
+# FAQ routes 
 
 Lista una o mas 
+
+`ADMIN => ` Utilizada por los usuarios con type `Callevo` en la opcion `FAQs` que determina los `Frequently asked questions` que utilizara el `BOT`
+
+```php
 $app->get('/faqs[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\FAQController::class . ':listFAQ');
 $app->post('/faqs[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\FAQController::class . ':listFAQ');
+```
 entrada
+```json
 {
 	"total_records":"0",
 	"fields":"faq_id,title,content,keywords,status",
 	"where":" (title like '%projects%' OR content like '%projects%' OR keywords like '%projects%') ",
 	"order":"faq_id"
 }
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5699,7 +5939,14 @@ salida
 		.
 	]
 }
+```
+
+`ADMIN => ` Utilizada por los usuarios con type `Callevo` en la opcion `FAQs` que determina los `Frequently asked questions` que utilizara el `BOT`, la opcion es para traer una FAQ y poderla editar.
+
+```php
 $app->get('/faq[/{id}]', \App\Controllers\FAQController::class . ':listFAQ');
+```
+```json
 {
 	"faq_id": "17",
 	"title": "How to change calling speed",
@@ -5707,10 +5954,17 @@ $app->get('/faq[/{id}]', \App\Controllers\FAQController::class . ':listFAQ');
 	"keywords": "CALLING",
 	"status": "1"
 },
+```
 
 Agrega/modifica
+
+`ADMIN => ` Utilizada por los usuarios con type `Callevo` en la opcion `FAQs` que determina los `Frequently asked questions` que utilizara el `BOT`, la opcion es para guardar la modificacion realizada
+
+```php
 $app->post('/faq', \App\Controllers\FAQController::class . ':modifyFAQ');
 $app->put('/faq/{id}', \App\Controllers\FAQController::class . ':modifyFAQ');
+```
+```json
 {
 	"faq_id": "17",
 	"title": "How to change calling speed",
@@ -5718,17 +5972,28 @@ $app->put('/faq/{id}', \App\Controllers\FAQController::class . ':modifyFAQ');
 	"keywords": "CALLING",
 	"status": "1"
 },
+```
 
 Borra por ID
+
+`ADMIN => ` Utilizada por los usuarios con type `Callevo` en la opcion `FAQs` que determina los `Frequently asked questions` que utilizara el `BOT`, la opcion es para eliminar un FAQ
+
+```php
 $app->delete('/faq/{id}', \App\Controllers\FAQController::class . ':deleteFAQ');
+```
 
 
-/**
-* ============================= DID Rotation (group phones) ==========================================
-*/
+# DID Rotation (group phones) 
+
 Lista uno o mas con sus relaciones
+
+`ADMIN => ` en la opción Administration / Routing / CallerID Groups
+
+```php
 $app->get('/caller_id_groups', \App\Controllers\PhoneController::class . ':getCallerIdGroup');
 $app->get('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class . ':getCallerIdGroup');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5769,11 +6034,18 @@ $app->get('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class 
 		.
 	]
 }
+```
 
 Agrega/modifica
+
+`ADMIN => ` en la opción Administration / Routing / CallerID Groups, para guardar. Presenta numeros habilitados para seleccionar, Todos estos numeros se los envia y la logica es que si el numero que envio ya existia en el otro caller id group , entonces debe ser elimnado del otro y asignado a este que se pide guardar.
+
+```php
 $app->post('/caller_id_group', \App\Controllers\PhoneController::class . ':modifyCallerIdGroup');
 $app->put('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class . ':modifyCallerIdGroup');
+```
 entrada
+```json
  {
     "groupid": "",
     "group_name": "otro_mas",
@@ -5790,7 +6062,9 @@ entrada
     ],
     "camp_id": "1330"
 }
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": {
@@ -5800,12 +6074,23 @@ salida
 		]
 	}
 }
+```
 
 Borra por ID
-$app->delete('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class . ':deleteCallerIdGroup');
 
-Lista los phoes del grupo
+`ADMIN => ` en la opción Administration / Routing / CallerID Groups, para eliminar y liberar numeros. 
+
+```php
+$app->delete('/caller_id_group/{groupid}', \App\Controllers\PhoneController::class . ':deleteCallerIdGroup');
+```
+Lista los phones del grupo
+
+`ADMIN => NO SE USA`. 
+
+```php
 $app->get('/phones_caller_id/{groupid}', \App\Controllers\PhoneController::class . ':getPhoneInCallerId');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5823,20 +6108,40 @@ $app->get('/phones_caller_id/{groupid}', \App\Controllers\PhoneController::class
 		}
 	]
 }
+```
+
 Devuelve uno por id
+
+`ADMIN => NO SE USA`. 
+
+```php
 $app->get('/phone_caller_id/{phonesincallergroup_id}', \App\Controllers\PhoneController::class . ':getPhoneInCallerId');
+```
+```json
 {
 	"phonesincallergroup_id": "2",
 	"groupid": "1",
 	"phoneid": "50",
 	"phone": null
 }
+```
 
 Borra por ID
+
+`ADMIN => NO SE USA`. 
+
+```php
 $app->delete('/phones_caller_id[/{groupid}]', \App\Controllers\PhoneController::class . ':deletePhoneInCallerId');
+```
 
 Lista los estados
+
+`ADMIN => `. Se utiliza en `Number Edit` cuando de requiere un hacer `Request Number` y contratar un numero. En este caso se despliega un popup que tiene el `State`, `Rate Center` y el `Number`. En esta ruta se obtiene la lista de estados de USA.
+
+```php
 $app->get('/usa_states', \App\Controllers\StateController::class . ':usaStates');
+```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -5854,12 +6159,18 @@ $app->get('/usa_states', \App\Controllers\StateController::class . ':usaStates')
 		"FM": "Federated States of Micronesia",
 		"GA": "Georgia",
 		"GU": "Guam",
-		
-	]
+	}
 }	
+```
 
 Lista por estado
+
+`ADMIN => `. Se utiliza en `Number Edit` cuando de requiere un hacer `Request Number` y contratar un numero. En este caso se despliega un popup que tiene el `State`, `Rate Center` y el `Number`. En esta ruta se obtiene la lista de rate centers.
+
+```php
 $app->get('/rate_centers/{state}', \App\Controllers\PhoneController::class . ':getRateCenters');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -5873,16 +6184,31 @@ $app->get('/rate_centers/{state}', \App\Controllers\PhoneController::class . ':g
 		
 	]
 }
+```
 
-/*
-* ================= CALL RESULT MODIFICATION=====================
-*/
+# CALL RESULT MODIFICATION
+
+
 Reportes
-$app->put('/calllist/{id}', \App\Controllers\CallListController::class . ':callListSave');
+
+`ADMIN => ` Cuando se realiza una busqueda de llamadas `Search by Call`, en la columna de `Phone` existe un icono link que envia al formulario `call history` en donde se llama a esta ruta.
+```php
 $app->post('/call_history', \App\Controllers\CallListController::class . ':callHistory');
+```
+
+`ADMIN => ` Cuando se realiza una busqueda de llamadas `Search by Call`, en la columna de `CRC` existe un icono link que despliega un popup con la informacion de `Call Result Modification` en donde se llama a esta ruta.
+```php
+$app->put('/calllist/{id}', \App\Controllers\CallListController::class . ':callListSave');
+```
 
 Recoge los dispo por campaña
+
+`ADMIN => ` Se utiliza en `calls history`, en `Search by Call` de open search, en la columna de `CRC` existe un icono link que despliega un popup con la informacion de `Call Result Modification` en donde se llama a esta ruta y despliega la informacion en el campo `CRC`.
+
+```php
 $app->get('/disposition_by_campaign/{camp_id}', \App\Controllers\DispositionController::class . ':getDispositionByCampaign');
+```
+```json
 [
 	{
 		"dcid": 14995,
@@ -5916,11 +6242,17 @@ $app->get('/disposition_by_campaign/{camp_id}', \App\Controllers\DispositionCont
 			"integration_type": "0"
 		}
 	},
-	
 ]
+```
 
 Por tenant
+
+`ADMIN => ` Se utiliza en `wizard new campaign`, para desplegar lis `Dispositions` que tiene el tenant.
+
+```php
 $app->get('/disposition_by_tenant/{id}', \App\Controllers\DispositionController::class . ':getDispositionByTenant');
+```
+```json
 [
 	{
 		"dispid": 623,
@@ -5954,39 +6286,69 @@ $app->get('/disposition_by_tenant/{id}', \App\Controllers\DispositionController:
 			"order": "1"
 		}
 	},
-	.
 ]	
+```
 
 Retorna el unique id del call id
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/call/{id}', \App\Controllers\CallsController::class . ':getCallUniqueID');
+```
 
 Realiza una busqueda (query) en opensearch usando curl 
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/opensearchquery', \App\Controllers\CurlController::class . ':openSearchQuery');
+```
 
+# MANAGEMENT (POOLS) 
 
-/*
-* ========================= MANAGEMENT (POOLS) ==================================
-*/
 Archiva/restaura un pool usando s3
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/archive_pool/{poolid}', \App\Controllers\PoolController::class . ':archivePool');
 $app->get('/archive_pool/{poolid}', \App\Controllers\PoolController::class . ':archivePool');
+```
 
 Funcion antigua para hacer los pasos de importacion
+
+`ADMIN => NO SE USA`
+```php
 $app->post('/importer/{id}/{op}', \App\Controllers\PoolController::class . ':importer');
+```
 
 Funcion actual que hace los pasos de importacion a un pool previamente subido al s3
+
+`ADMIN => ` en el screen de `Pools` cuando el archivo no ha sido importado desde la edicion, la pantalla que lista todos los pools, permite importarlo desde la opcion `Import`, ejecutando esta ruta.
+```php
 $app->post('/file_import/{id}', \App\Controllers\PoolController::class . ':fileImport');
-error,dedup,scrub,merge
+```
+> error,dedup,scrub,merge
+
 
 Usa las tablas pools y campaign_pool para verificar si el pool esta importado correctamente
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/check_real_import/{id}', \App\Controllers\PoolController::class . ':checkRealImport');
+```
 resultado
+```json
 { 
 	"status": "ok",
 	"id" : 2234
 }
+```
 
-Templates management
+### Templates management
+
 Devuelve un template por su id o por line
 
 `ADMIN =>` Archivo `Importer` filesready permite obtener un template
@@ -6027,21 +6389,30 @@ $app->get('/file_template/{id}', \App\Controllers\TemplateController::class . ':
 			"updated_at": "2023-12-19T02:59:08.000000Z",
 			"deleted_at": null
 		},
-		.
-	}
+	]
 }	
 ```
 
 
+```php
 $app->get('/template_by_option', \App\Controllers\TemplateController::class . ':getFileTemplatebyLine');
+```
+
 Igual a la anterior pero usando el file_header, ejemplo:
-https://apidev.callevo.net/api/public/template_by_option?file_header=Y3VzdG9tMSxJbnZvaW 
-El header debe ser codificado en base64
+`https://apidev.callevo.net/api/public/template_by_option?file_header=Y3VzdG9tMSxJbnZvaW` 
+
+El header debe ser codificado en base64.
 
 Crea/modifica un template
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/save_template[/{poolid}]', \App\Controllers\TemplateController::class . ':templateSave')->setName('template_save');
 $app->put('/save_template[/{poolid}]', \App\Controllers\TemplateController::class . ':templateSave');
 $app->put('/template[/{poolid}]', \App\Controllers\TemplateController::class . ':templateSave');
+```
+```json
 {
 	"file_template": {
 		"id": -1,
@@ -6058,15 +6429,26 @@ $app->put('/template[/{poolid}]', \App\Controllers\TemplateController::class . '
 			"field_source": "lead_lname",
 			"field_destination": "lead_lname"
 		},
-		
-	}
+	]
 }
+```
 
 Borra un template simpre que no este en uso
+
+`ADMIN => NO SE USA`
+
+```php
 $app->delete('/template/{id}', \App\Controllers\TemplateController::class . ':templateDelete');
+```
 
 Devuelve todos los templates con sus relaciones
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/file_templates', \App\Controllers\TemplateController::class . ':indexTemplate')->setName('templates');
+```
+```json
 [
 	{
 		"id": 28,
@@ -6089,22 +6471,40 @@ $app->get('/file_templates', \App\Controllers\TemplateController::class . ':inde
 				"updated_at": "2021-09-17T20:51:24.000000Z",
 				"deleted_at": null
 			},
-			.
 		]
 	}
 ]
-			
+```		
+
 Determina si el template esta bloqueado porque ya esta en uso en un pool importado
+
+`ADMIN => ` En el screen de `Importer` y de `Templates`, existe la opcion de revisar si esta bloqueado el template.
+
+```php
 $app->get('/is_template_lock/{id}', \App\Controllers\TemplateController::class . ':isTemplateLock')->setName('template_lock');
+```		
 resultado
+```		
 no|yes
+```
 
 Duplica el template 
+
+`ADMIN => ` En el screen de `Templates`, utiliza esta opcion para duplicarlos.
+
+```php
 $app->get('/duplicate_template/{id}[/{poolid}]', \App\Controllers\TemplateController::class . ':duplicateTemplate')->setName('duplicate_template');
+```
 
 Funciones internas para el admin
 Devuelve el template id asignado al poolid
+
+`ADMIN => ` En el screen de `Templates`, utiliza esta opcion para duplicarlos.
+
+```php
 $app->get('/pool/template_edit[/{id}[/{poolid}[/{campid}]]]', \App\Controllers\TemplateController::class . ':templateEdit')->setName('template_edit');
+```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -6163,15 +6563,35 @@ $app->get('/pool/template_edit[/{id}[/{poolid}[/{campid}]]]', \App\Controllers\T
 		"id": "503"
 	}
 }
+```
+
 Adiciona/modifica un template
+
+`ADMIN => ` En el screen de `Importer` y `Template Edit`, utiliza esta opcion para guardar el template nuevo o modificado.
+
+```php
 $app->post('/pool/template_save[/{poolid}]', \App\Controllers\TemplateController::class . ':templateSave')->setName('template_save');
 $app->put('/pool/template_save[/{poolid}]', \App\Controllers\TemplateController::class . ':templateSave');
+```
+
+
 Borra un template mientras no este usado
+
+`ADMIN => ` en el screen de `Templates` permite eliminar uno previo a ser seleccionado.
+
+```php
 $app->delete('/pool/template_delete[/{id}]', \App\Controllers\TemplateController::class . ':templateDelete')->setName('template_delete');
+```
 
 Adiciona/modifica un pool
+
+`ADMIN => NO SE USA`
+
+```php
 $app->post('/save_pool', \App\Controllers\PoolController::class . ':savePool');
 $app->put('/save_pool', \App\Controllers\PoolController::class . ':savePool');
+```
+```json
 {
   "data": {
 		"poolid":-1,
@@ -6183,22 +6603,51 @@ $app->put('/save_pool', \App\Controllers\PoolController::class . ':savePool');
 		"filecontent":"Zmlyc3RfbmFtZSxsYXN0X25hbWUscGhvbmVfbnVtY"
    }
 }
+```
+
 Pone datos de importacion a 0 en pools y campaign_pool 
+
+`ADMIN =>` Esta opcion se utiliza cuando al realizar una importacion de un file, deciden salir, en ese momento se cancela todo y se hace un rollback de la data.
+
+```php
 $app->post('/rollback_pool_imported/{poolid}', \App\Controllers\PoolController::class . ':rollbackPoolImported');
+```
 
 Eliminan los datos del pool y del template de la db
+
+`ADMIN =>` Esta opcion se utiliza cuando al realizar una importacion de un file, deciden salir, en ese momento se cancela todo y se hace un rollback de la data. 
+
+```php
 $app->delete('/cancel_pool/{id}', \App\Controllers\PoolController::class . ':cancelPool');
+```
+
+`ADMIN =>` Esta opcion se utiliza cuando al realizar una importacion de un file, deciden salir, en ese momento se cancela todo y se hace un rollback de la data.
+
+```php
 $app->delete('/cancel_template/{id}', \App\Controllers\PoolController::class . ':cancelTemplate');
+```
 
 Realiza varias verificaciones en el pool
+
+`ADMIN => ` En el screen de listado de los files importados `Manager/Importer` existe una accion que permite comprobar el file importado.
+
+```php
 $app->get('/check_pool/{id}', \App\Controllers\PoolController::class . ':checkPool');
+```
 - Template sin lead_phone
 - Datos no importados
 - Asignacion de camp incorrecta
 
+
 Adiciona/modifica pool, al ser usado por admin, este ya determino los campos legacy listline,listnumber y firstline
+
+`ADMIN => ` se usa en los screens `Importer/New File` para guardar el file importado. 
+
+```php
 $app->post('/pool/add', \App\Controllers\PoolController::class . ':savePool');
 $app->put('/pool/add', \App\Controllers\PoolController::class . ':savePool');
+```
+```json
 {
 	"data": {
 		 "camp_id":2,
@@ -6219,34 +6668,69 @@ $app->put('/pool/add', \App\Controllers\PoolController::class . ':savePool');
 		"poolid":-1
 		}
 }
+```
 
 Borra el pool por id
+
+`ADMIN => ` en el screen `Import` en donde se listan todos los files, se utiliza en el proceso de `DELETE`
+
+```php
 $app->delete('/pool/delete/{id}', \App\Controllers\PoolController::class . ':deletePool');
 $app->delete('/pool/{id}', \App\Controllers\PoolController::class . ':deletePool');
+```
 
 Estas funciones estan usadas via NATS, en api invocan a los SP correspondientes StartPool y StopPool
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/stop_pool/{id}', \App\Controllers\PoolController::class . ':stoppool');
 $app->get('/start_pool/{id}', \App\Controllers\PoolController::class . ':startpool');
 $app->get('/pool/stop/{id}', \App\Controllers\PoolController::class . ':stoppool');
 $app->get('/pool/start/{id}', \App\Controllers\PoolController::class . ':startpool');
+```
 
 Devuelve la cantidad de records en dialer_leads que corresponde al pool
-$app->get('/pool/count/{id}', \App\Controllers\PoolController::class . ':countRecordsPool');
-salida
-13456
 
-// DEDUPER action
+`ADMIN => NO SE USA`
+
+```php
+$app->get('/pool/count/{id}', \App\Controllers\PoolController::class . ':countRecordsPool');
+```
+salida
+```
+13456
+```
+
+# DEDUPER action
+
 Nunca se han usado no tengo como hacer ejemplos, en deduper se arman queries dinamicos en base a condiciones 
+
+`ADMIN => YA NO SE USA ` Estaba en la screen `Dedup COntrol` que ya no esta en menu.
+
+```php
 $app->get('/target_counts', \App\Controllers\DeDuperController::class . ':targetCounts')->setName('targetcount');
 $app->get('/deduper', \App\Controllers\DeDuperController::class . ':deDuper')->setName('deduper');
 $app->put('/deduper', \App\Controllers\DeDuperController::class . ':deDuper');
+```
 
 Exporta en formato csv los datos de dialer_leads que corresponden al pool
+
+`ADMIN => ` En la screen `Importer` exite un boton `Export data to file`.
+
+```php
 $app->get('/leads/export/{poolid}', \App\Controllers\LeadController::class . ':leadExport');
 $app->post('/leads/export/{poolid}', \App\Controllers\LeadController::class . ':leadExport');
+```
 
 Actualiza dialer_leads y calls
+
+`ADMIN => YA NO SE USA` En la screen `qualitycheck`
+
+```php
 $app->post('/leads/qualitycheck/{leadid}', \App\Controllers\LeadController::class . ':leadQualityCheck');
+```
+```js
 {
 	"leads": {
         "agentid": $("#agentid option:selected").val(),
@@ -6326,13 +6810,24 @@ $app->post('/leads/qualitycheck/{leadid}', \App\Controllers\LeadController::clas
 		"agentdisp": dispo
 	},
 };
+```
 
-/*
-* ========================= STATISTIC/DIALTABLE ==================================
-*/
+# STATISTIC / DIALTABLE 
+
 Lista uno mas pool stats con sus relaciones
+
+`ADMIN => ` Screen `Dial Table`, trae los datos de los files de la campaña, elegible, fetched, max tries, enrte otros, cada 5 segundos
+
+```php
 $app->get('/poolstats[/{id}]', \App\Controllers\PoolController::class . ':listPoolStats')->setName('poolStats');
+```
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/poolstat/{id}', \App\Controllers\PoolController::class . ':getPoolStat');
+```
+```json
 [
 	{
 		"poolid": 969,
@@ -6584,14 +7079,35 @@ $app->get('/poolstat/{id}', \App\Controllers\PoolController::class . ':getPoolSt
 	},
 	
 }	
+```
+
+
 Devuelve el poolid activo para la camp
+
+`ADMIN => ` opcion se utliza en el `query builder` de `campaign edit` trayendo el `poolID`, que servira para formar parte del `comando SQL` que se construye en el `WHERE`.
+
+```php
 $app->get('/active_pool/{campid}', \App\Controllers\PoolController::class . ':getActivePool');
+```
 resultado
+```
 2234
+```
 
 Lista uno o mas registros 
+
+`ADMIN => NO SE USA` 
+
+```php
 $app->get('/campaignpools', \App\Controllers\PoolController::class . ':listCampaignPools')->setName('cmpPools');
+```
+
+`ADMIN => ` Se utiliza dentro del screen de `Dial Table`, los datos se obtienen cuando se da click sobre el boton `Options` y se presenta un popup con los datos: Project, Pool, Priority, Prefix, Records to Fecth.
+
+```php
 $app->get('/campaignpool/{id}', \App\Controllers\PoolController::class . ':getCampaignPool');
+```
+```json
 [
 	{
 		"cpoolid": 1644,
@@ -6788,12 +7304,17 @@ $app->get('/campaignpool/{id}', \App\Controllers\PoolController::class . ':getCa
 			"indexname": ""
 		}
 	},
-	
 ]	
+```
 
 Lista los (files) pools con su relacion de camp
-$app->get('/files', \App\Controllers\PoolController::class . ':listall')->setName('pools');
 
+`ADMIN => NO SE USA` 
+
+```php
+$app->get('/files', \App\Controllers\PoolController::class . ':listall')->setName('pools');
+```
+```json
 [
 	{
 		"poolid": 1664,
@@ -6851,14 +7372,19 @@ $app->get('/files', \App\Controllers\PoolController::class . ':listall')->setNam
 			"camp_type": "CL",
 			"ratio": "3:1",
 			"status": "0",
-			.
 		}
 	},
-	
 ]
+```
 
 Pool con todos los datos y relaciones
+
+`ADMIN => ` En el screen de `Dial Table` en el boton `Options`, `Importer` cuando se hace back para ontener el pool.
+
+```php
 $app->get('/file/{poolid}', \App\Controllers\PoolController::class . ':getPool');
+```
+```json
 {
 	"poolid": 1664,
 	"pooluploadname": "",
@@ -6939,9 +7465,17 @@ $app->get('/file/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 		]
 	}
 }
+```
 
 Pool abreviado
+
+`ADMIN => NO SE USA`
+
+
+```php
 $app->get('/pool/{poolid}', \App\Controllers\PoolController::class . ':getPool');
+```
+```json
 {
 	"poolid": 1664,
 	"pooluploadname": "",
@@ -6990,24 +7524,51 @@ $app->get('/pool/{poolid}', \App\Controllers\PoolController::class . ':getPool')
 		]	
 	}
 }
+```
+
 
 Actualiza campaign pool
-$app->put('/campaignpool[/{id}]', \App\Controllers\PoolController::class . ':updateCampaignPool');
 Actualiza el objeto tal como se recibe en el request
+
+`ADMIN => ` En el screen de `Dial Table` luego de llenar los requerimientos del popup de `Options` se guarda en esta ruta.
+
+```php
+$app->put('/campaignpool[/{id}]', \App\Controllers\PoolController::class . ':updateCampaignPool');
+```
 
 
 Actualiza los datos de la camp
+
+`ADMIN => YA NO SE USA` En el screen de `Projects` se utilizaba para actualizar la campaña en el boton `UPDATE`, actualmente el proceso se encuentra comentado.
+
+```php
 $app->put('/update_campaign_data[/{camp_id}]', \App\Controllers\CampaignController::class . ':updateCampaignData');
+```
+```sql
 CALL updatecampaigndata(:camp_id)
+```
 
 Actualiza los datos del pool
-$app->put('/update_pool_data[/{pool_id}]', \App\Controllers\PoolController::class . ':updatePoolData');
-CALL updatepooldata(:camp_id, :poolid)
 
-// Reset status and dispositions and count
+`ADMIN => NO SE USA`
+
+```php
+$app->put('/update_pool_data[/{pool_id}]', \App\Controllers\PoolController::class . ':updatePoolData');
+```
+```sql
+CALL updatepooldata(:camp_id, :poolid)
+```
+
+Reset status and dispositions and count
 Resetea segun tabs
+
+`ADMIN => YA NO SE USA` En el screen `Reset File`, se utilizaba para resetear un file
+
+```php
 $app->put('/pool/reset/{id}', \App\Controllers\PoolController::class . ':reset');
- {
+```
+```json
+{
     "tabName": "status",
     "status_2": "noa",
     "status_3": "busy",
@@ -7015,24 +7576,42 @@ $app->put('/pool/reset/{id}', \App\Controllers\PoolController::class . ':reset')
     "status_6": "amd",
     "status_7": "fax"
 }
+```
+
 Realiza la operacion de conteo segun disp
+
+`ADMIN => YA NO SE USA` En el screen `Reset File`, se utilizaba para obtener los counts de cada disp
+
+```php
 $app->put('/pool/dispcount/{id}', \App\Controllers\PoolController::class . ':reset');
- {
-    "noa" : 12345
-    "busy" : 12345
-    "dropped" : 12345
-    "amd" : 12345
-    "fax : 12345
+```
+```json
+{
+    "noa" : 12345,
+    "busy" : 12345,
+    "dropped" : 12345,
+    "amd" : 12345,
+    "fax" : 12345
 }
+```
 
+# ROUTING 
 
-/**
-* ========================= ROUTING ==============================
-*/
 Lista uno mas phones
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/phones', \App\Controllers\PhoneController::class . ':listall');
-$app->get('/phones/{state}/{ratecenter}', \App\Controllers\PhoneController::class . ':listall');
 $app->get('/phone/{id}', \App\Controllers\PhoneController::class . ':getPhone');
+```
+
+`ADMIN => ` Utilizado en el screen `Numbers` para cuando se hace un nuevo `Number Edit` con el fin de traer los `Phones` de los `State` y el `Rate Center` antes consultados.
+
+```php
+$app->get('/phones/{state}/{ratecenter}', \App\Controllers\PhoneController::class . ':listall');
+```
+```json
 [
 	{
 		"phoneid": 8,
@@ -7057,11 +7636,18 @@ $app->get('/phone/{id}', \App\Controllers\PhoneController::class . ':getPhone');
 	},
 	
 ]
+```
 
 Agrega/modifica un phone
+
+`ADMIN => ` En el screen `Number Edit` se utiliza para guardar un phone.
+
+```php
 $app->post('/phone', \App\Controllers\PhoneController::class . ':modifyPhone');
 $app->put('/phone', \App\Controllers\PhoneController::class . ':modifyPhone');
- {
+```
+```json
+{
     "phoneid": "-1",
     "phone": "9434693411",
     "ptypeid": "1",
@@ -7075,43 +7661,74 @@ $app->put('/phone', \App\Controllers\PhoneController::class . ':modifyPhone');
     "userid": "436",
     "flagged": "0"
 }
+```
 
 Borra un phone por ID
+
+`ADMIN => ` Elimina un phone desde la ventana `Numbers`
+
+```php
 $app->delete('/phone/{id}', \App\Controllers\PhoneController::class . ':deletePhone');
+```
 
+`ADMIN => ` Activa/Desactiva un phone desde la ventana `Numbers`
 
+```php
 $app->put('/activephone', \App\Controllers\PhoneController::class . ':activePhone');
+```
 entrada
+```js
 {
 	id: ids,
 	valactive: valactive,
 	userid: "{{ auth.user.userid }}"
 },
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": {
 		"records": 3
 	}
 }
+```
 
-/*
+
+```
 Saul Diaz — 08/22 at 12:25 PM
 @jjsc si recibes esto buscas el number en phones  en flagged pones 1 y en flag_result result pones el valor
-*/
+```
+
+`ADMIN =>  NO SE USA`
+
+```php
 $app->get('/600reject', \App\Controllers\PhoneController::class . ':_600reject');
+```
 entrada
+```json
 {
 	"num" : 11233344455,
 	"callid": 12313123,
 	"result": 608,
 	"server": ""
 }
+```
 
 Lista
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/trunks', \App\Controllers\TrunkController::class . ':listall');
+```
+
+`ADMIN => YA NO SE USA` En el screen `Trunks`
+```php
 $app->get('/trunk/{id}', \App\Controllers\TrunkController::class . ':getTrunk');
+```
 salida
+```json
 [
 	{
 		"trunkID": 3,
@@ -7123,11 +7740,17 @@ salida
 		"num_channels": "20"
 	}
 ]
+```
 
 Agrega/modifica 
+
+`ADMIN => YA NO SE USA` En el screen `Trunks`
+```php
 $app->post('/trunk', \App\Controllers\TrunkController::class . ':modifyTrunk');
 $app->put('/trunk', \App\Controllers\TrunkController::class . ':modifyTrunk');
+```
 entrada
+```
 {
 	"trunkID": 3,
 	"tenantid": "25",
@@ -7137,15 +7760,26 @@ entrada
 	"description": "Default admin ",
 	"num_channels": "20"
 }
+```
 
 Borra por id
+
+`ADMIN => YA NO SE USA` En el screen `Trunks`
+```php
 $app->delete('/trunk/{id}', \App\Controllers\TrunkController::class . ':deleteTrunk');
+```
 
 
 Lista 
+
+`ADMIN => YA NO SE USA` 
+
+```php
 $app->get('/inRoutes', \App\Controllers\InRouteController::class . ':listall');
 $app->get('/inRoute/{id}', \App\Controllers\InRouteController::class . ':getInRoute');
+```
 salida
+```json
 [
 	{
 		"inrouteid": 79,
@@ -7162,56 +7796,100 @@ salida
 		}
 	}
 ]
+```
 
 Agrega/modifca
+
+`ADMIN => ` En el screen de `Routes` en la opcion de `New/Edit` al guardar se ejecuta estas rutas.
+
+```php
 $app->post('/inRoute', \App\Controllers\InRouteController::class . ':modifyInRoute');
 $app->put('/inRoute', \App\Controllers\InRouteController::class . ':modifyInRoute');
- {
+```
+```json
+{
     "inrouteid": "-1",
     "phoneID": "7572",
     "ivrid": "229",
     "context": "internal"
 }
+```
 
 Borra por ID
-$app->delete('/inRoute/{id}', \App\Controllers\InRouteController::class . ':deleteInRoute');
 
-// no se esta usando
+`ADMIN => ` En el screen de `Routes` 
+
+```php
+$app->delete('/inRoute/{id}', \App\Controllers\InRouteController::class . ':deleteInRoute');
+```
+
+## no se esta usando
+
+`ADMIN => NO SE USA` 
+
+```php
 $app->get('/routes', \App\Controllers\RouteController::class . ':listall');
 $app->get('/route/{id}', \App\Controllers\RouteController::class . ':getRoute');
 $app->post('/route', \App\Controllers\RouteController::class . ':modifyRoute');
 $app->put('/route', \App\Controllers\RouteController::class . ':modifyRoute');
 $app->delete('/route/{id}', \App\Controllers\RouteController::class . ':deleteRoute');
+```
+
+# RECORDING 
 
 
-/**
-* ========================= RECORDING ==============================
-*/
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/playfile/{lang}/{name}', \App\Controllers\RecordingController::class . ':getPlayfile');
+```
 devuelve un file content-transfer-encoding binary y content-type audio/gsm 
 
-$app->get('/recording_download/{id}[/{phone}]', \App\Controllers\RecordingController::class . ':getRecordingDownload');	
 Devuelve si el call recording para el call id existe en el s3
 
+`ADMIN => NO SE USA`
+
+```php
+$app->get('/recording_download/{id}[/{phone}]', \App\Controllers\RecordingController::class . ':getRecordingDownload');	
+```
+
 Chequea si existe o no el recording 
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/recording_exists/{id}', \App\Controllers\RecordingController::class . ':getRecordingDownload');
+```
+```json
 {
 	"type": "INFO",
 	"message": "Ok",
 	"more": "2024\/10\/01\/louisville_434_20241001161002_5025335938_70245764_26313124_ip-172-30-11-103-ec2-internal-1727798981-1522.mp3"
 }
+```
 
 devuelve el url correspondiente para reproducir el recording (antigua)
+
+`Admin => NO SE USA`
+
+```php
 $app->get('/recording_url/{callid}', \App\Controllers\RecordingController::class . ':getRecordingUrl');
+```
+```c
 https://ip.callevo.com/public/recording_download/70245764 
+```
 
+# ASTERISK RECORDING 
 
-/**
-* ========================= ASTERISK RECORDING ==============================
-*/
 Devuelve uno o mas asterisk recording
+
+`ADMIN => NO SE USA` Admin utiliza sus modelos
+
+```php
 $app->get('/recordings', \App\Controllers\RecordingController::class . ':listall');
 $app->get('/recording/{id}', \App\Controllers\RecordingController::class . ':getRecording');
+```
+```json
 [
 	{
 		"recID": 21,
@@ -7233,11 +7911,18 @@ $app->get('/recording/{id}', \App\Controllers\RecordingController::class . ':get
 	},
 	.
 ]
+```
 
 Agrega/modifica asterisk recording, en el filecontent va el file en base64 y este se almacenará en el s3
+
+`ADMIN => ` En el screen `Recordings` en la opcion `New/Edit` se guarda la modificaciones realizadas al recording y el audio importado.
+
+```php
 $app->post('/recording', \App\Controllers\RecordingController::class . ':modifyRecording');
 $app->put('/recording', \App\Controllers\RecordingController::class . ':modifyRecording');
+```
 entrada
+```js
 {
 	"recName" : $data['recName'],
 	"recfilename" : $basename,
@@ -7246,23 +7931,38 @@ entrada
 	"filecontent" : "sdfasdfadfadf"
 	"used" : $data['used'],
 }
+```
+
 
 Borra un asterisk recording de la db y del s3
+
+`ADMIN => ` En el screen `Recordings` en la opcion `DELETE` ejecuta esta opcion de api.
+
+```php
 $app->delete('/recording/{id}', \App\Controllers\RecordingController::class . ':deleteRecording');
+```
 
+# MOH 
+### (funciones antiguas que trabajan directamente con el directorio de asterisk)
 
-// MOH (funciones antiguas que trabajan directamente con el directorio de asterisk)
+```php
 $app->get('/mohs', \App\Controllers\MusicOnHoldController::class . ':listall');
 $app->get('/moh/{id}', \App\Controllers\MusicOnHoldController::class . ':getMusicOnHold');
 $app->post('/moh', \App\Controllers\MusicOnHoldController::class . ':modifyMusicOnHold');
 $app->put('/moh', \App\Controllers\MusicOnHoldController::class . ':modifyMusicOnHold');
 $app->delete('/moh/{id}', \App\Controllers\MusicOnHoldController::class . ':deleteMusicOnHold');
+```
 
-/**
-* ========================= IVR ==============================
-*/
+# IVR 
+
 Lista uno mas IVR
+
+`ADMIN => NO SE USA` Admin utiliza modelos propios en el screen `IVR`.
+
+```php
 $app->get('/ivrs', \App\Controllers\IvrController::class . ':listall'); 
+```
+```json
 [
 	{
 		"ivrid": 206,
@@ -7288,7 +7988,6 @@ $app->get('/ivrs', \App\Controllers\IvrController::class . ':listall');
 				"parameter2": "",
 				"parameter3": ""
 			},
-.
 		],
 		"ivr_keys": []
 	},
@@ -7330,7 +8029,14 @@ $app->get('/ivrs', \App\Controllers\IvrController::class . ':listall');
 	},
 	
 ]	
+```
+
+`ADMIN =>` En el screen `IVR MAKER` utiliza cuando es una modificacion a un IVR ya guardado. Esta ruta trae los valores necesarios para armar los actions.
+
+```php
 $app->get('/ivr/{id}', \App\Controllers\IvrController::class . ':getIvr');
+```
+```json
 {
 	"status": "ok",
 	"message": [
@@ -7389,10 +8095,17 @@ $app->get('/ivr/{id}', \App\Controllers\IvrController::class . ':getIvr');
 		}
 	]
 }
+```
 
 Agrega/modifica
+
+`ADMIN => ` Esta ruta permite guardar los actions modificados en el screen `IVR MAKER`
+
+```php
 $app->post('/ivr', \App\Controllers\IvrController::class . ':modifyIvr');
 $app->put('/ivr[/{id}]', \App\Controllers\IvrController::class . ':modifyIvr');
+```
+```json
 {
     "ivrid": -1,
     "ivrname": "New IVR",
@@ -7428,29 +8141,54 @@ $app->put('/ivr[/{id}]', \App\Controllers\IvrController::class . ':modifyIvr');
     ],
     "force_gen_ivr": "n"
 }
+```
 
 Borra por ID
+
+`ADMIN => ` Se usa en el screen de `IVR` para eliminar
+
+```php
 $app->delete('/ivr/{id}', \App\Controllers\IvrController::class . ':deleteIvr');
+```
 
+`ADMIN => ` Se usa en el screen de `IVR MAKER`, `Wizard New Campaing` para traer los comandos y asi permitir que el usuario seleccione que acciones necesita para configurar el IVR.
+
+```php
 $app->get('/ivr_cmds', \App\Controllers\IvrController::class . ':getIvrCommands');
+```
 
+# NEW AGENT 
 
-/*
-* =============== NEW AGENT ===========================
-*/
 Agrega en agentcmpsession al agente
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/login', \App\Controllers\AgentController::class . ':addLoginCamp');
+```
+```c
 https://apidev.callevo.net/api/public/newagent/login?userID=u251521119c5bf9249ca&tenantID=138&agentID=828&camp_id=-1
+```
 salida
+```json
 {
 	"status": "OK",
 	"action": "ADDLOGIN",
 	"answer": "OK"
 }
+```
 
 Lista las camp del agente
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/cmp', \App\Controllers\AgentController::class . ':getAgentCmp');
+```
+```c
 https://apidev.callevo.net/api/public/newagent/cmp?userID=u251521119c5bf9249ca&tenantID=138&agentID=828
+```
+```json
 [
 	{
 		"camp_id": "425",
@@ -7465,10 +8203,19 @@ https://apidev.callevo.net/api/public/newagent/cmp?userID=u251521119c5bf9249ca&t
 		"isselected": "false"
 	}
 ]
+```
 
 Lista camp manuales
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/get_campaigns', \App\Controllers\CampaignController::class . ':getCampaigns');
+```
+```c
 https://apidev.callevo.net/api/public/newagent/get_campaigns?userID=u251521119c5bf9249ca&tenantID=138&agentID=828
+```
+```json
 [
 	{
 		"camp_name": "camp-name-cl",
@@ -7479,9 +8226,16 @@ https://apidev.callevo.net/api/public/newagent/get_campaigns?userID=u251521119c5
 		"camp_id": 889
 	}
 ]
+```
 
 Lista camp <> CL
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/transfer_campaign/{tenantid}', \App\Controllers\CampaignController::class . ':transferCampaigns');
+```
+```json
 [
 	{
 		"camp_name": "camp-name-cl",
@@ -7492,9 +8246,17 @@ $app->get('/newagent/transfer_campaign/{tenantid}', \App\Controllers\CampaignCon
 		"camp_id": "889"
 	}
 ]
+```
 
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/get_disposition', \App\Controllers\DispositionController::class . ':getDispositionCampaign');
+```
+```c
 https://apidev.callevo.net/api/public/newagent/get_disposition?camp_id=425
+```
+```json
 [
 	{
 		"dispid": "2380",
@@ -7554,11 +8316,19 @@ https://apidev.callevo.net/api/public/newagent/get_disposition?camp_id=425
 		"clientcode": "",
 		"qcenabled": "n"
 	},
-	
-]	
+]
+```
 
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/newagent/transfer_agents/{tenantid}', \App\Controllers\AgentController::class . ':getTransferAgent');
+```
+```c
 https://apidev.callevo.net/api/public/newagent/transfer_agents/138
+```
+```json
 [
 	{
 		"data": "828",
@@ -7569,10 +8339,19 @@ https://apidev.callevo.net/api/public/newagent/transfer_agents/138
 		"label": "JJSc tenant test agent"
 	}
 ]
+```
 
 Devuelve al objeto completo de user verificando el passwd contra el hashed
+
+`ADMIN => NO LO USA` 
+
+```php
 $app->get('/auth', \App\Controllers\AgentController::class . ':getAuth');
+```
+```c
 https://apidev.callevo.net/api/public/auth?userID=u251521119c5bf9249ca&password=s6P7v4K1
+```
+```json
 {
 	"userid": 844,
 	"tenantid": "138",
@@ -7739,18 +8518,25 @@ https://apidev.callevo.net/api/public/auth?userID=u251521119c5bf9249ca&password=
 		"roles": []
 	}
 }
+```
 o error si esta mal el passwd
+```json
 [
 	{
 		"message": "ERROR invalid password"
 	}
 ]
+```
 
-/**
-* ========================= STATES ==============================
-*/
+# STATES 
+
+`ADMIN => YA NO SE USA`
+
+```php
 $app->get('/states', \App\Controllers\StateController::class . ':listall')->setName('states');
 $app->get('/state/{id}', \App\Controllers\StateController::class . ':getState');
+```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -7773,22 +8559,42 @@ $app->get('/state/{id}', \App\Controllers\StateController::class . ':getState');
  
     }
 }	
+```
+
 Agrega/modifica 
+
+`ADMIN => YA NO SE USA`
+
+```php
 $app->post('/state', \App\Controllers\StateController::class . ':modifyState');
 $app->put('/state', \App\Controllers\StateController::class . ':modifyState');
+```
+```js
 {
    "state_abr" : $data['state_abr'],
    "state_name" : $data['state_name'],
 }
+```
 
 Borra
-$app->delete('/state/{id}', \App\Controllers\StateController::class . ':deleteState');
 
-/**
-* ========================= USERS TYPES ==============================
-*/
+`ADMIN => YA NO SE USA`
+
+```php
+$app->delete('/state/{id}', \App\Controllers\StateController::class . ':deleteState');
+```
+
+# USERS TYPES 
+
 Listado con su relacion de roles
+
+
+`ADMIN => NO SE USA`
+
+```php
 $app->get('/users_type', \App\Controllers\UserTypeController::class . ':index')->setName('users_type');
+```
+```json
 [
 	{
 		"usertype": 1,
@@ -7817,11 +8623,17 @@ $app->get('/users_type', \App\Controllers\UserTypeController::class . ':index')-
 			
 		],
 	}
-.
 ]
+```
 
-Listado abreviado	
+Listado abreviado
+
+`ADMIN => ` Se utiliza en el screen de `Users` para traer la informacion y utilizarla en `INVITATION`.
+
+```php
 $app->get('/user_types_list', \App\Controllers\UserTypeController::class . ':listUserTypes');
+```
+```json
 [
 	{
 		"usertype": 27,
@@ -7837,9 +8649,16 @@ $app->get('/user_types_list', \App\Controllers\UserTypeController::class . ':lis
 	},
 	
 ]
+```
 
-Recupera un type	
+Recupera un type
+
+`ADMIN =>  NO SE USA`
+
+```php
 $app->get('/user_type/{typeid}', \App\Controllers\UserTypeController::class . ':getype');
+```
+```json
 [
 	{
 		"usertype": 27,
@@ -7855,10 +8674,17 @@ $app->get('/user_type/{typeid}', \App\Controllers\UserTypeController::class . ':
 		"roles": []
 	}
 ]
+```
 
 Agrega/modifica
+
+`ADMIN => YA NO SE USA ` En el de screeen de `usertype` que ya no se utiliza se puede guardar 
+
+```php
 $app->post('/usertype', \App\Controllers\UserTypeController::class . ':modifyUserType');
 $app->put('/usertype', \App\Controllers\UserTypeController::class . ':modifyUserType');
+```
+```json
 {
 	"usertype": 27,
 	"descripcion": "Agent",
@@ -7868,16 +8694,26 @@ $app->put('/usertype', \App\Controllers\UserTypeController::class . ':modifyUser
 	"scopes": "read",
 	"showinadmin": "0",
 }		
+```
 
 Borra 
+
+`ADMIN => YA NO SE USA ` En el screen de `usertype`, que ya no se utiliza, existe una opcion para eliminar el user type
+
+```php
 $app->delete('/usertype/{id}', \App\Controllers\UserTypeController::class . ':deleteUserType');
+```
 
+# ROLES 
 
-/**
-* ========================= ROLES ==============================
-*/
 Lista roles
+
+`ADMIN => NO SE USA` Aunque el screen ya no esta en el menu, Admin utilizaba los modelos para obtener la informacion
+
+```php
 $app->get('/roles', \App\Controllers\RoleController::class . ':listall')->setName('roles');
+```
+```json
 [
 	{
 		"id": 1,
@@ -7899,8 +8735,13 @@ $app->get('/roles', \App\Controllers\RoleController::class . ':listall')->setNam
 	},
 	
 ]	
+```
 
 Recupera 1
+
+`ADMIN => NO SE USA` Aunque el screen ya no esta en el menu, Admin utilizaba los modelos para obtener la informacion
+
+```php
 $app->get('/role/{id}', \App\Controllers\RoleController::class . ':getRole');
 [
 	{
@@ -7913,41 +8754,71 @@ $app->get('/role/{id}', \App\Controllers\RoleController::class . ':getRole');
 		"updated_at": "2018-04-17T02:48:51.000000Z"
 	}
 ]
+```
 
 Agrega/modifica 
+
+`ADMIN => NO SE USA` Aunque el screen ya no esta en el menu, se utilizaba para guardar el rol.
+
+```php
 $app->post('/role', \App\Controllers\RoleController::class . ':modifyRole');
 $app->put('/role', \App\Controllers\RoleController::class . ':modifyRole');
+```
+```json
 {
 	"name": "ragentsviewer",
 	"permissions": "read",
 }
+```
 
 Borra 
+
+`ADMIN => NO SE USA` Aunque el screen ya no esta en el menu, se utiliza para eliminar rol.
+
+```php
 $app->delete('/role/{id}', \App\Controllers\RoleController::class . ':deleteRole');
+```
 
+# LOGO 
 
-/**
-* ========================= LOGO ==============================
-*/
 Recupera un logo en formato html data image inline
+
+`ADMIN => ` Se lo activa en el entonrno del sistema ya logueado para recuperar el logo que definio el cliente en el tenant.
+
+```php
 $app->get('/logo/{id}/{tenantid}', \App\Controllers\ConfigController::class . ':getLogo');
+```
+```json
 {
 	"status": "ok",
 	"message": "data:image\/jpeg;base64,\/9j\/4AAQSkZJRgABAQAAAQABAAD\/2wBDAAMCAgICAgMCAg"
 }
+```
 
-Agerga/modifica un logo, filecontent en base64
+Agrega/modifica un logo, filecontent en base64
+
+`ADMIN => ` Se lo guarda independientemente en el `Tenant Edit` cuando selecciona logo.
+
+```php
 $app->post('/logo', \App\Controllers\ConfigController::class . ':modifyLogo');
 $app->put('/logo', \App\Controllers\ConfigController::class . ':modifyLogo');
+```
+```json
 {
 	
 	"logo":"icono primero con espacios.png",
 	"camp_id":"425",
 	"filecontent":"iVBORw0KGgoAAAANSUhEUgAAADIA."
 }		
+```
 
 Borra
+
+`ADMIN => ` Elimina el logo al momento que el cliente lo quiere quitar, en el `Tenant Edit`
+
+```php
 $app->delete('/logo/{id}/{tenantid}', \App\Controllers\ConfigController::class . ':deleteLogo');
+```
 
 
 # RANGE/PAGINATIONS 
@@ -7999,12 +8870,13 @@ Salida
 }
 ```
 
+`ADMIN => YA NO SE USA ` Anteriormente estaba en el screen `No Called Records` pero no se encuentra activa. `pool/nocalled`
 
 ```php
 $app->post('/nocalled_range[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\LeadController::class . ':getNoCalledRange');
 ```
 entrada
-```
+```json
  {
 	"cr":1,
 	"m":"pooldisp",
@@ -8019,7 +8891,7 @@ entrada
 }
 ```
 salida
-```
+```json
 {
 	"status": "ok",
 	"message": {
@@ -8046,8 +8918,13 @@ salida
 }
 ```
 
+`ADMIN => YA NO SE USA` Utilizada antes en el `Search by Lead`.
+
+```php
 $app->post('/leads_range', \App\Controllers\LeadController::class . ':getLeadsRange');
+```
 entrada
+```json
  {
     "tenantid": "98",
     "record_start": "0",
@@ -8056,7 +8933,9 @@ entrada
         "where": "lead_fname like '%jorg%'"
     }
 }
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": {
@@ -8079,15 +8958,23 @@ salida
 		]
 	}
 }
+```
 
+`ADMIN => ` Se utiliza en el screen de `Numbers`, para traer el contenido de los phones pero con filtro y paginado
+
+```php
 $app->post('/numbers_range[/p/{p}/f/{f}/o/{o}/i/{i}]', \App\Controllers\PhoneController::class . ':numbers');
+```
 entrada
+```json
 {
   "fields": "phones.phoneid,phones.phone,phone_type.typename,phones.description,calleridgroup.group_name,prefix.prefix,phones.active,phones.flagged,phones.ratecenter",
   "order": "phones.phone",
   "where": ""
 }
+```
 salida
+```json
 {
 	"status": "ok",
 	"message": {
@@ -8112,7 +8999,7 @@ salida
 		]
 	}
 }
-
+```
 
 # VAN Support 
 
@@ -8203,29 +9090,51 @@ salida
 	"message": "Done total:54,  inserted:0 records"
 }
 ```
+
+
 Actualiza en el tenant el api que se especifica
+
+`ADMIN => ` Se utiliza en `Tenant VAN API KEY` en la ruta de admin `/vanapikey`. AUnque no se encuentra asignado a ningun rol.
+
+```php
 $app->put('/van_data/{tenantid}', \App\Controllers\VANController::class . ':vanApiData');
+```
 entrada
+```js
 {
-	"ngp_van_apikey" ""ertewrtertetwetwerterw"
+	"ngp_van_apikey": "ertewrtertetwetwerterw"
 }
+```
 salida
+```json
 {
 	"status" : "ok", 
 	"message" : "successfull"
 }
+```
 
+
+`ADMIN => ` Se utiliza en `Tenant VAN API KEY` en la ruta de admin `/vanapikey`. AUnque no se encuentra asignado a ningun rol.
+
+```php
 $app->get('/van_api_key_test[/{apiKey}]', \App\Controllers\VANController::class . ':testVanApiKey');
+```
 salida
+```
 lo que venga de van
+```
 
+# WEBFORM 
 
-/**
-* ==========================  WEBFORM ===========================================
-*/
 Agrega/modifica un webform
+
+`ADMIN => ` Se utiliza en el screen `Supporting Data / WebForm` en la opcion `New/Edit`, y sirve para parsear nuestros scripts con los de `Sales Force`, indicando que campos se matchean con `Sales Force`. La ejecución de este parsing esta en el `remotep`. Ej: Se va poniendo el campo `custom1` en nuestro sistema y en `Sales Force` se llama `00N4x000005q3G1`. Aquí se determinan la url, campaña, el metodo con el que se empata con `Sales Force`. 
+
+```PHP
 $app->post('/webform', \App\Controllers\WebFormController::class . ':modifyWebForm');
 $app->put('/webform', \App\Controllers\WebFormController::class . ':modifyWebForm');
+```
+```json
 {
 	"webform_id" : -1, 
 	"description": "",
@@ -8242,18 +9151,21 @@ $app->put('/webform', \App\Controllers\WebFormController::class . ':modifyWebFor
 		
 	]
 }
+```
 
 Borra un webform
+
+`ADMIN => ` Se utiliza en el screen `Supporting Data / WebForm` para eliminar un webform.
+
+```php
 $app->delete('/webform/{id}', \App\Controllers\WebFormController::class . ':deleteWebForm');
+```
 
+`ADMIN => ` Se utiliza en el screen `Supporting Data / WebForm` para determinar si esta activo o no, un webform (Start/Stop).
+
+```php
 $app->post('/webform/active/{id}/{action}', \App\Controllers\WebFormController::class . ':activeWebForm');
-
 ```
-```
-```
-```
-
-
 
 `ADMIN =>` Obtiene un nombre unico para crear usuario `u` o teams `q`.
 
