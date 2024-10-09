@@ -3,8 +3,8 @@
 `Fecha: 2024-09`
 
 # Importante
+> En todos los casos a menos que se especifique se toman los datos como username, email del token y se determina el tenantid en la base para las operaciones. 
 
-En todos los casos a menos que se especifique se toman los datos como username, email del token y se determina el tenantid en la base para las operaciones.
 <hr>
 
 Lista status con relacion a las llamadas activas campaign y agent
